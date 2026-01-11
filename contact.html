@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Liên hệ - 🌿 Dinh Dưỡng Sấy Khô</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* ================= HEADER ================= */
+    .main-header {
+      background-color: #8bc34a;
+      color: white;
+      padding: 10px 20px;
+    }
+    .header-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo { font-size: 20px; font-weight: bold; white-space: nowrap; }
+    .main-menu { display: flex; gap: 20px; }
+    .main-menu a {
+      color: white; text-decoration: none; font-weight: 500;
+    }
+    .main-menu a:hover { border-bottom: 2px solid white; }
+    .search-bar {
+      display: flex; align-items: center;
+      background: white; border-radius: 6px;
+      border: 1px solid #ccc; max-width: 300px; flex: 1;
+    }
+    .search-bar input {
+      border: none; outline: none; padding: 8px 10px;
+      width: 100%; font-size: 14px;
+    }
+    .search-bar button {
+      background: #ffeb3b; border: none;
+      padding: 8px 12px; cursor: pointer; font-weight: 600;
+    }
+    .account a {
+      color: white; text-decoration: none;
+      display: flex; align-items: center;
+    }
+    .user-icon { margin-right: 6px; }
+
+    /* ================= LIÊN HỆ ================= */
+    .contact-section {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .contact-header h1 {
+      font-size: 38px;
+      color: #4caf50;
+      margin-bottom: 10px;
+      animation: fadeInDown 1s ease;
+    }
+    .contact-header p {
+      color: #555;
+      font-size: 18px;
+      margin-bottom: 40px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    /* Lý do chọn */
+    .why-us {
+      background: #f1f8e9;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 50px;
+      animation: fadeInUp 1.2s ease;
+    }
+    .why-us h2 {
+      color: #4caf50;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .why-us ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+      text-align: left;
+    }
+    .why-us li {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .why-us li:hover { transform: scale(1.04); }
+    .why-us li::before {
+      content: "✔ "; color: #689f38; font-weight: bold;
+    }
+
+    /* Thông tin liên hệ & form */
+    .contact-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      align-items: start;
+    }
+    .contact-info, .contact-form {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .contact-info:hover, .contact-form:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    }
+    .contact-info h2, .contact-form h2 {
+      color: #4caf50;
+      margin-bottom: 15px;
+    }
+    .contact-info p { margin: 10px 0; font-size: 17px; color: #444; }
+    .contact-info strong { color: #222; }
+
+    .contact-form label { display: block; font-weight: bold; margin-bottom: 6px; text-align: left; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 12px; border-radius: 8px;
+      border: 1px solid #ccc; margin-bottom: 16px;
+      font-size: 15px;
+    }
+    .contact-form button {
+      background: linear-gradient(135deg, #8bc34a, #689f38);
+      color: white; border: none; padding: 12px 24px;
+      border-radius: 8px; font-size: 16px; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .contact-form button:hover { transform: scale(1.05); }
+
+    /* Nút gọi */
+    .call-button {
+      display: inline-block;
+      background: #ffeb3b;
+      color: #333;
+      font-weight: bold;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      margin-top: 25px;
+      transition: all 0.3s;
+    }
+    .call-button:hover { background: #fdd835; transform: scale(1.05); }
+
+    /* Hình ảnh minh họa */
+    .contact-banner {
+      margin: 60px 0 40px;
+      animation: zoomIn 1.2s ease;
+    }
+    .contact-banner img {
+      width: 100%;
+      max-width: 900px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .map {
+      margin-top: 50px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      animation: fadeInUp 1.3s ease;
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      background: #4c4a24;
+      color: #fff;
+      padding: 60px 0 20px;
+      margin-top: 60px;
+    }
+    .footer-inner {
+      width: 1200px;
+      max-width: calc(100% - 120px);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      padding-left: 60px;
+    }
+    .footer-col h4 {
+      font-size: 15px; margin-bottom: 12px;
+      text-transform: uppercase; color: #fff;
+    }
+    .footer-col p, .footer-col a, .footer-col li {
+      color: #e0d9c7; font-size: 14px; text-decoration: none; line-height: 1.6;
+    }
+    .social-icons img {
+      width: 38px; height: 38px; border-radius: 50%;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .social-icons img:hover { transform: scale(1.2); opacity: 0.8; }
+    .footer-bottom {
+      background: #111; color: #ccc;
+      text-align: center; padding: 12px; font-size: 13px; margin-top: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .header-container { flex-wrap: wrap; justify-content: center; }
+      .main-menu { flex-wrap: wrap; justify-content: center; }
+      .footer-inner { grid-template-columns: repeat(2, 1fr); padding-left: 30px; }
+    }
+    @media (max-width: 600px) {
+      .footer-inner { grid-template-columns: 1fr; padding-left: 20px; }
+      .contact-content { grid-template-columns: 1fr; }
+    }
+
+    /* ================= HIỆU ỨNG ================= */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo">🌿 <strong>Dinh Dưỡng Sấy Khô</strong></div>
+      <nav class="main-menu">
+        <a href="index.html">Trang chủ</a>
+        <a href="shop.html">Sản phẩm</a>
+        <a href="promotion.html">Khuyến mãi</a>
+        <a href="introduce.html">Giới thiệu</a>
+        <a href="#">Liên hệ</a>
+      </nav>
+      <form class="search-bar">
+        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+        <button type="submit">🔍</button>
+      </form>
+      <div class="account">
+        <a href="login.html"><span class="user-icon">👤</span> Tài khoản</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- PHẦN LIÊN HỆ -->
+  <section class="contact-section">
+    <div class="contact-header">
+      <h1>Liên hệ với Dinh Dưỡng Sấy Khô</h1>
+      <p>Chúng tôi luôn đồng hành cùng bạn trong hành trình sống xanh & khỏe mạnh 🌱</p>
+    </div>
+
+    <div class="contact-banner">
+      <img src="https://chonongsanonline.com/public/uploads/all/UsUxuohSoFoigiLdmlpXqLvp3RSSLqf1iy1ACbU9.jpg" alt="Liên hệ Dinh Dưỡng Sấy Khô">
+    </div>
+
+    <div class="why-us">
+      <h2>Tại sao nên chọn chúng tôi?</h2>
+      <ul>
+        <li>100% nguyên liệu tự nhiên, không chất bảo quản.</li>
+        <li>Đóng gói đẹp, đạt tiêu chuẩn an toàn thực phẩm.</li>
+        <li>Dịch vụ tư vấn nhiệt tình – hỗ trợ 24/7.</li>
+        <li>Giao hàng nhanh chóng trên toàn quốc.</li>
+      </ul>
+    </div>
+
+    <div class="contact-content">
+      <div class="contact-info">
+        <h2>Thông tin cửa hàng</h2>
+        <p>🏢 <strong>Địa chỉ:</strong> 123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh</p>
+        <p>📞 <strong>Hotline:</strong> 0902 451 215 (Zalo, Call)</p>
+        <p>📧 <strong>Email:</strong> lienhe@dinhduongsaykho.com</p>
+        <p>🕒 <strong>Giờ làm việc:</strong> 8:00 – 18:00 (Thứ 2 – Thứ 7)</p>
+        <p>🚚 <strong>Giao hàng toàn quốc</strong> qua GHTK, J&T, Viettel Post.</p>
+        <a href="tel:0902451215" class="call-button">📞 Gọi ngay 0902 451 215</a>
+      </div>
+
+      <form class="contact-form">
+        <h2>Gửi tin nhắn cho chúng tôi</h2>
+        <label for="name">Họ và tên:</label>
+        <input type="text" id="name" placeholder="Nhập họ tên của bạn" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Nhập địa chỉ email của bạn" required>
+
+        <label for="message">Nội dung liên hệ:</label>
+        <textarea id="message" rows="5" placeholder="Nhập nội dung bạn muốn gửi..." required></textarea>
+
+        <button type="submit">📨 Gửi liên hệ</button>
+      </form>
+    </div>
+
+    <div class="map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.847868795992!2d106.68219007451743!3d10.822164858389228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528dbff4cb6ef%3A0xf62c2da28f76b40!2zMTIzIE5ndXnhu4VuIFbEg24gTGluaCwgUXXhuq1uIDcsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgUXXhuq1uIDcsIFRo4buLIMSQw7RuZw!5e0!3m2!1svi!2s!4v1713432032322!5m2!1svi!2s"
+        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>🌿 DINH DƯỠNG SẤY KHÔ</h4>
+        <p>Chuyên cung cấp thực phẩm sấy khô tự nhiên – an toàn – tốt cho sức khỏe.</p>
+        <p><strong>Địa chỉ:</strong> 123 Nguyễn Văn Linh, TP. Hồ Chí Minh</p>
+        <p><strong>SĐT:</strong> 0902 451 215</p>
+        <p><strong>Email:</strong> lienhe@dinhduongsaykho.com</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+        <ul>
+          <li><a href="#">Chính sách giao hàng</a></li>
+          <li><a href="#">Chính sách đổi trả</a></li>
+          <li><a href="#">Bảo mật thông tin</a></li>
+          <li><a href="#">Hướng dẫn mua hàng</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>ƯU ĐÃI & TIN TỨC</h4>
+        <ul>
+          <li><a href="#">Giảm giá 10% cho đơn đầu tiên</a></li>
+          <li><a href="#">Miễn phí vận chuyển nội thành</a></li>
+          <li><a href="#">Blog sức khỏe & dinh dưỡng</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>KẾT NỐI VỚI CHÚNG TÔI</h4>
+        <div class="social-icons" style="display:flex;gap:12px;margin-top:10px;">
+          <a href="https://www.facebook.com/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook"></a>
+          <a href="https://www.youtube.com/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+          <a href="https://zalo.me/" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo"></a>
+          <a href="https://www.tiktok.com/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

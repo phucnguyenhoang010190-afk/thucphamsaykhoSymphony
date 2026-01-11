@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Khuyến mãi | Dinh Dưỡng Sấy Khô</title>
+  <style>
+    :root{
+      --primary:#8bc34a;
+      --primary-dark:#689f38;
+      --bg:#f9f9f9;
+      --card-bg:#fff;
+      --muted:#666;
+      --accent:#ff5252;
+      --yellow:#ffeb3b;
+      --max-width:1200px;
+      --radius:14px;
+      --shadow: 0 8px 26px rgba(0,0,0,0.08);
+    }
+    *{box-sizing:border-box;font-family:Arial, sans-serif}
+   body {
+  background: radial-gradient(circle at 20% 20%, #f1ffe8 0%, #ffffff 70%, #f1ffe8 100%);
+  background-image: url('https://www.transparenttextures.com/patterns/green-dust-and-scratches.png');
+  background-repeat: repeat;
+  background-attachment: fixed;
+  background-size: auto;
+  color: #222;
+  margin: 0;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+    a{color:inherit;text-decoration:none}
+    /* HEADER - consistent with other pages */
+    .main-header{background:var(--primary);color:#fff;padding:12px 20px}
+    .header-container{max-width:var(--max-width);margin:0 auto;display:flex;gap:16px;align-items:center;justify-content:space-between}
+    .logo{font-size:20px;font-weight:700;white-space:nowrap}
+    .main-menu{display:flex;gap:14px}
+    .main-menu a{color:#fff;text-decoration:none;font-weight:600;padding:6px 2px}
+    .main-menu a.active{border-bottom:2px solid #fff}
+    .search-bar{display:flex;align-items:center;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #ddd;padding:2px 6px;max-width:300px}
+    .search-bar input{border:0;outline:0;padding:8px;width:100%}
+    .search-bar button{background:var(--primary);color:#111;border:0;padding:8px 10px;border-radius:6px;cursor:pointer}
+    .account a{color:#fff;text-decoration:none;font-weight:600}
+
+    /* PAGE BANNER */
+    .promo-banner {
+      background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.22)), url('https://chonongsanonline.com/public/uploads/all/UsUxuohSoFoigiLdmlpXqLvp3RSSLqf1iy1ACbU9.jpg') center/cover no-repeat;
+      height: 420px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      text-align:center;
+      padding: 0 20px;
+    }
+    .promo-banner .wrap{
+      background: rgba(0,0,0,0.35);
+      padding: 26px 28px;
+      border-radius: 12px;
+      display:inline-block;
+    }
+    .promo-banner h1{
+      font-size:34px;
+      margin:0 0 12px 0;
+      letter-spacing:1px;
+    }
+    .promo-banner p{
+      margin:0 0 18px 0;
+      font-size:16px;
+    }
+    .btn-cta{
+      background:var(--yellow);
+      color:#222;
+      border-radius:10px;
+      padding:10px 18px;
+      font-weight:800;
+      border:none;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    /* MAIN LAYOUT */
+    .container{max-width:var(--max-width);margin:-60px auto 60px;padding:0 16px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start}
+    @media (max-width:1000px){.grid{grid-template-columns:1fr}}
+
+    /* FLASH SALE CARD */
+    .flash-card{
+      background:var(--card-bg);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .flash-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+    .flash-top h2{margin:0;color:var(--primary-dark);font-size:20px}
+    .countdown{display:flex;gap:8px;align-items:center;font-weight:800}
+    .countdown .time{
+      background:#111;color:#fff;padding:8px 10px;border-radius:8px;min-width:52px;text-align:center;font-size:16px;
+    }
+    .flash-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    @media (max-width:700px){.flash-list{grid-template-columns:repeat(2,1fr)}}
+    .flash-item{
+      background:#fff;border-radius:12px;padding:10px;text-align:center;box-shadow:0 6px 14px rgba(0,0,0,0.06);
+      display:flex;flex-direction:column;gap:8px;align-items:center;
+    }
+    .flash-item img{width:100%;height:120px;object-fit:cover;border-radius:10px}
+    .price-row{display:flex;gap:8px;align-items:center}
+    .old-price{font-size:13px;color:var(--muted);text-decoration:line-through}
+    .new-price{color:var(--primary-dark);font-weight:800}
+    .badge-percent{position:relative;top:-8px;background:#f44336;color:#fff;border-radius:10px;padding:6px 8px;font-size:12px;font-weight:800}
+
+    /* COUPONS */
+    .coupons{
+      margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;
+    }
+    .coupon{
+      background:linear-gradient(135deg,#fff,#f8fff2);
+      border:1px dashed #e6f3d4;padding:12px;border-radius:12px;min-width:200px;display:flex;flex-direction:column;gap:8px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.04);
+    }
+    .coupon .code{font-weight:900;color:var(--primary-dark);font-size:18px}
+    .coupon .copy{background:var(--primary);color:#fff;border:0;padding:8px;border-radius:8px;cursor:pointer;font-weight:700}
+
+    /* RIGHT SIDEBAR - highlight box */
+    .sidebar{
+      position:sticky;top:90px;
+    }
+    .promo-cta{background:linear-gradient(180deg,#fff,#fffbdd);border-radius:12px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+    .promo-cta h3{margin:0;color:var(--primary-dark)}
+    .small{font-size:14px;color:var(--muted)}
+
+    /* PROMO GRID (products on sale) */
+    .promo-grid{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width:1100px){.promo-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){.promo-grid{grid-template-columns:repeat(1,1fr)}}
+    .card{
+      background:var(--card-bg);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(0,0,0,0.12)}
+    .card .img{width:100%;height:200px;object-fit:cover;border-bottom-left-radius:0;border-bottom-right-radius:0}
+    .card-body{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .card-title{font-size:16px;font-weight:800;color:#222}
+    .card-price{display:flex;gap:10px;align-items:center}
+    .card .old{color:var(--muted);text-decoration:line-through;font-size:13px}
+    .card .now{color:var(--primary-dark);font-weight:900;font-size:17px}
+    .card .actions{margin-top:auto;display:flex;gap:8px;align-items:center}
+    .add-btn{background:var(--primary);color:#fff;border:0;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:800}
+    .copy-code-small{background:#fff;border:1px dashed #eee;padding:8px;border-radius:8px}
+
+    /* SALE BADGE on card */
+    .sale-badge{position:absolute;left:12px;top:12px;background:#f44336;color:#fff;padding:8px 10px;border-radius:10px;font-weight:900;font-size:13px;box-shadow:0 8px 20px rgba(244,67,54,0.12)}
+    .new-badge{background:var(--primary-dark)}
+
+    /* Fade-in titles (reuse logic similar index.html) */
+    .section-title{opacity:0;transform:translateY(28px);transition:all .7s ease}
+    .section-title.visible{opacity:1;transform:translateY(0);color:var(--primary-dark)}
+
+    /* FOOTER - match style */
+    footer{background:#4c4a24;color:#fff;padding:36px 0;margin-top:40px}
+    .footer-inner{max-width:var(--max-width);margin:0 auto;display:flex;gap:20px;padding:0 16px;flex-wrap:wrap}
+    .footer-col{flex:1;min-width:200px}
+    .social-icons img{width:36px;height:36px;border-radius:50%;margin-right:8px}
+
+    /* small */
+    .muted{color:var(--muted);font-size:13px}
+    /* Làm nổi bật sản phẩm khuyến mãi */
+.card {
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 24px rgba(139,195,74,0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 36px rgba(104,159,56,0.35);
+}
+
+/* Hiệu ứng nền họa tiết nhẹ */
+.container {
+  position: relative;
+  z-index: 1;
+}
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('https://www.transparenttextures.com/patterns/fabric-of-squares.png');
+  opacity: 0.25;
+  z-index: -1;
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo">🌿 <strong>Dinh Dưỡng Sấy Khô</strong></div>
+
+      <nav class="main-menu">
+        <a href="index.html">Trang chủ</a>
+        <a href="shop.html">Sản phẩm</a>
+        <a href="promotion.html" class="active">Khuyến mãi</a>
+        <a href="introduce.html">Giới thiệu</a>
+        <a href="contact.html">Liên hệ</a>
+      </nav>
+
+      <form class="search-bar" onsubmit="event.preventDefault(); applyPromoSearch();">
+        <input id="promoSearch" type="text" placeholder="Tìm khuyến mãi, ví dụ: xoài..." />
+        <button type="submit">🔍</button>
+      </form>
+
+      <div class="account"><a href="login.html">👤 Tài khoản</a></div>
+    </div>
+  </header>
+
+  <!-- BANNER -->
+  <section class="promo-banner" id="topBanner">
+    <div class="wrap">
+      <h1>SIÊU SALE THÁNG NÀY - GIẢM ĐẾN 50%!</h1>
+      <p>Thực phẩm sấy khô tự nhiên, thơm ngon — ưu đãi giới hạn. Nhanh tay kẻo lỡ!</p>
+      <button class="btn-cta" onclick="document.getElementById('promoGrid').scrollIntoView({behavior:'smooth'})">Mua ngay</button>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="container">
+    <div class="grid">
+      <!-- LEFT: Flash sale + coupons + promo grid -->
+      <div>
+        <!-- Flash sale -->
+        <div class="flash-card">
+          <div class="flash-top">
+            <h2 class="section-title">⚡ Flash Sale</h2>
+            <div class="countdown" aria-live="polite">
+              <div id="cdDays" class="time">00</div>
+              <div class="muted">:</div>
+              <div id="cdHours" class="time">00</div>
+              <div class="muted">:</div>
+              <div id="cdMins" class="time">00</div>
+              <div class="muted">:</div>
+              <div id="cdSecs" class="time">00</div>
+            </div>
+          </div>
+
+          <div class="flash-list" id="flashList">
+            <!-- JS will render flash items here -->
+          </div>
+
+          <!-- Coupons -->
+          <div class="section-title" style="margin-top:16px">🎁 Mã Coupon Ưu Đãi</div>
+          <div class="coupons" id="couponList">
+            <div class="coupon">
+              <div class="muted">GIẢM 10% ĐƠN HÀNG ĐẦU TIÊN</div>
+              <div class="code">FIRST10</div>
+              <div class="small">Áp dụng cho tất cả sản phẩm</div>
+              <button class="copy" data-code="FIRST10">Sao chép mã</button>
+            </div>
+
+            <div class="coupon">
+              <div class="muted">FREE SHIP nội thành HCM</div>
+              <div class="code">FREESHIP</div>
+              <div class="small">Miễn phí giao hàng nội thành</div>
+              <button class="copy" data-code="FREESHIP">Sao chép mã</button>
+            </div>
+
+            <div class="coupon">
+              <div class="muted">GIẢM 20% KHI MUA TRÊN 500.000đ</div>
+              <div class="code">SAVE20</div>
+              <div class="small">Áp dụng với đơn ≥ 500.000đ</div>
+              <button class="copy" data-code="SAVE20">Sao chép mã</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo product grid -->
+        <h2 class="section-title" style="margin-top:22px">🛍️ Sản phẩm khuyến mãi</h2>
+        <section id="promoGrid" class="promo-grid" aria-live="polite">
+          <!-- JS render promo cards -->
+        </section>
+      </div>
+
+      <!-- RIGHT: Sidebar -->
+      <aside class="sidebar">
+        <div class="promo-cta">
+          <h3>Ưu đãi đặc biệt</h3>
+          <div class="small">Giảm thêm 5% khi đăng ký nhận tin</div>
+          <div style="display:flex;gap:8px">
+            <input id="emailSub" placeholder="Nhập email của bạn" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eee" />
+            <button class="copy-code-small" onclick="subscribe()">Đăng ký</button>
+          </div>
+          <div style="margin-top:6px" class="muted">Ưu đãi thay đổi theo thời gian — kiểm tra thường xuyên nhé!</div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="promo-cta">
+          <h3>Giỏ hàng nhanh</h3>
+          <div id="miniCart" class="small">Không có sản phẩm</div>
+          <button class="add-btn" onclick="location.href='shopping-cart.html'">Xem giỏ hàng</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>🌿 DINH DƯỠNG SẤY KHÔ</h4>
+        <p>Chuyên cung cấp thực phẩm sấy khô tự nhiên – an toàn – tốt cho sức khỏe.</p>
+        <p><strong>Địa chỉ:</strong> 123 Nguyễn Văn Linh, TP. HCM</p>
+        <p><strong>Email:</strong> lienhe@dinhduongsaykho.com</p>
+      </div>
+      <div class="footer-col">
+        <h4>HỖ TRỢ</h4>
+        <ul style="list-style:none;padding:0;margin:0">
+          <li>Chính sách giao hàng</li>
+          <li>Chính sách đổi trả</li>
+          <li>Hướng dẫn mua hàng</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>THEO DÕI</h4>
+        <div class="social-icons">
+          <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="fb"></a>
+          <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="yt"></a>
+          <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="tiktok"></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /***********************
+     * DỮ LIỆU SẢN PHẨM (sao chép từ shop.html để trang độc lập)
+     ***********************/
+    const products = [
+      { id:'chuoi', name:'Chuối sấy giòn', category:'Trái cây sấy', price:35000, img:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lve04k5yjwx0b4', badge:'sale', oldPrice:45000 },
+      { id:'mit', name:'Mít sấy giòn', category:'Trái cây sấy', price:120000, oldPrice:160000, img:'https://maysaycongnghiep.com.vn/wp-content/uploads/2024/01/mit-say-thanh-pham-gion-ngon.webp', badge:'sale' },
+      { id:'xoai', name:'Xoài sấy dẻo', category:'Trái cây sấy', price:80000, oldPrice:100000, img:'https://langfarm-backend.s3.amazonaws.com/4.enjoy-soft-dried-mango-slices.jpg' },
+      { id:'mangcau', name:'Mãng cầu sấy', category:'Trái cây sấy', price:130000, img:'https://tramangcau.vn/wp-content/uploads/2025/03/Mang-cau-say-tam-muoi-ot-Dak-Lak-dam-bao-chat-luong-thom-ngon-nhat.jpg', badge:'new' },
+      { id:'khoailang', name:'Khoai lang sấy', category:'Rau củ sấy', price:45000, img:'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_9_7_638297036945916999_cach-lam-khoai-lang-say-bang-noi-chien-khong-dau-thumb.jpg' },
+      { id:'tau', name:'Táo sấy', category:'Trái cây sấy', price:90000, img:'https://dacsannguyenha.com/storage/photos/5/Traicaysay/thumbs/62903f8f47ad9.jpeg' },
+      { id:'hatdie', name:'Hạt điều sấy', category:'Hạt sấy', price:150000, img:'https://images.blog.hatdieubactam.vn/hat-dieu-say-1626770884269-bao-quan-hat-dieu-say.jpg' },
+      { id:'hathat', name:'Hạt hỗn hợp mix', category:'Món mix', price:120000, img:'https://bizweb.dktcdn.net/100/429/184/products/hat-dinh-duong-mix.jpg?v=1692168381767' },
+      { id:'raucu1', name:'Rau củ sấy thập cẩm', category:'Rau củ sấy', price:70000, img:'https://www.lottemart.vn/media/catalog/product/cache/0x0/8/9/8936108170210-3.jpg.webp' },
+      { id:'hathat2', name:'Hạt óc chó', category:'Hạt sấy', price:220000, img:'https://bizweb.dktcdn.net/100/004/714/products/nhan-oc-cho-1kg.jpg?v=1606793639263' },
+      { id:'thom', name:'Thơm sấy', category:'Trái cây sấy', price:100000, img:'https://dalatfarm.net/wp-content/uploads/2025/05/thom-say-deo-1.jpg' },
+      { id:'mix2', name:'Mix trái cây & hạt', category:'Món mix', price:180000, img:'https://hatdinhduong.com/upload_imagesimages/trai-cay-say-calinuts.jpg' }
+    ];
+
+    /***********************
+     * FLASH SALE CONFIG
+     ***********************/
+    // Chọn những id sản phẩm sẽ hiện trong flash sale
+    const flashIds = ['mit','chuoi','xoai']; // hiển thị 3 sản phẩm
+    const flashDurationMs = 1000 * 60 * 60 * 24 * 2; // 48 giờ từ thời điểm tải trang
+
+    // Lấy phần tử
+    const flashListEl = document.getElementById('flashList');
+    const cdDays = document.getElementById('cdDays');
+    const cdHours = document.getElementById('cdHours');
+    const cdMins = document.getElementById('cdMins');
+    const cdSecs = document.getElementById('cdSecs');
+
+    // Thiết lập thời gian kết thúc
+    const flashEnd = Date.now() + flashDurationMs;
+
+    function renderFlashItems(){
+      flashListEl.innerHTML = '';
+      flashIds.forEach(id=>{
+        const p = products.find(x=>x.id===id);
+        if(!p) return;
+        const percent = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : Math.round((Math.random()*20)+10);
+        const item = document.createElement('div');
+        item.className = 'flash-item';
+        item.innerHTML = `
+          <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
+            <div class="badge-percent">-${percent}%</div>
+          </div>
+          <img src="${p.img}" alt="${escapeHtml(p.name)}">
+          <div style="font-weight:800">${escapeHtml(p.name)}</div>
+          <div class="price-row">
+            ${p.oldPrice ? `<div class="old-price">${formatVND(p.oldPrice)}đ</div>` : ''}
+            <div class="new-price">${formatVND(p.price)}đ</div>
+          </div>
+          <button class="add-btn" data-id="${p.id}">Thêm vào giỏ</button>
+        `;
+        flashListEl.appendChild(item);
+      });
+    }
+
+    function updateCountdown(){
+      const diff = flashEnd - Date.now();
+      if(diff <= 0){
+        cdDays.textContent = '00'; cdHours.textContent='00'; cdMins.textContent='00'; cdSecs.textContent='00';
+        clearInterval(cdInterval);
+        return;
+      }
+      const days = Math.floor(diff / (1000*60*60*24));
+      const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+      const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+      const secs = Math.floor((diff % (1000*60)) / 1000);
+      cdDays.textContent = String(days).padStart(2,'0');
+      cdHours.textContent = String(hours).padStart(2,'0');
+      cdMins.textContent = String(mins).padStart(2,'0');
+      cdSecs.textContent = String(secs).padStart(2,'0');
+    }
+
+    /***********************
+     * PROMO GRID render
+     ***********************/
+    const promoGrid = document.getElementById('promoGrid');
+    // For demo: all products that have oldPrice OR some from array
+    const promoList = products.filter(p => p.oldPrice || ['thom','mangcau','mix2'].includes(p.id));
+
+    function renderPromoGrid(list){
+      promoGrid.innerHTML = '';
+      list.forEach(p=>{
+        const percent = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          ${percent>0 ? `<div class="${p.badge === 'new' ? 'new-badge' : 'sale-badge'} sale-badge">-${percent}%</div>` : (p.badge ? `<div class="sale-badge ${p.badge}">${p.badge.toUpperCase()}</div>` : '')}
+          <img class="img" src="${p.img}" alt="${escapeHtml(p.name)}">
+          <div class="card-body">
+            <div class="card-title">${escapeHtml(p.name)}</div>
+            <div class="card-price">
+              ${p.oldPrice ? `<div class="old">${formatVND(p.oldPrice)}đ</div>` : ''}
+              <div class="now">${formatVND(p.price)}đ</div>
+            </div>
+            <div class="actions">
+              <button class="add-btn" data-id="${p.id}">Thêm vào giỏ</button>
+              <button class="copy-code-small" data-code="FIRST10">Mã FIRST10</button>
+            </div>
+          </div>
+        `;
+        promoGrid.appendChild(card);
+      });
+    }
+
+    /***********************
+     * Utility functions
+     ***********************/
+    function formatVND(n){ return Number(n).toLocaleString('vi-VN'); }
+    function escapeHtml(text){ return String(text).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); }
+
+    /***********************
+     * Copy coupon buttons
+     ***********************/
+    document.addEventListener('click', e=>{
+      const cp = e.target.closest('button.copy');
+      if(cp){
+        const code = cp.dataset.code;
+        navigator.clipboard?.writeText(code).then(()=> {
+          cp.textContent = 'Đã sao chép ✓';
+          setTimeout(()=>cp.textContent = 'Sao chép mã', 1200);
+        }).catch(()=>alert('Không thể sao chép tự động. Hãy copy thủ công: ' + code));
+      }
+      // small copy buttons (in promo cards)
+      const cps = e.target.closest('button.copy-code-small');
+      if(cps){
+        const code = cps.dataset.code || 'FIRST10';
+        navigator.clipboard?.writeText(code).then(()=> {
+          cps.textContent = 'Đã sao chép ✓';
+          setTimeout(()=>cps.textContent = 'Mã FIRST10', 1200);
+        }).catch(()=>alert('Không thể sao chép tự động. Hãy copy thủ công: ' + code));
+      }
+    });
+
+    /***********************
+     * Giỏ hàng (localStorage) - tương thích với shop.html
+     ***********************/
+    const CART_KEY = 'dinhduongsaykho_cart_v1';
+    function getCart(){ return JSON.parse(localStorage.getItem(CART_KEY) || '{}'); }
+    function saveCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); renderMiniCart(); }
+    function addToCart(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      const cart = getCart();
+      if(!cart[id]) cart[id] = { id: p.id, name: p.name, price: p.price, qty: 1, img: p.img };
+      else cart[id].qty++;
+      saveCart(cart);
+      toastAdded();
+    }
+
+    // delegate add buttons
+    document.addEventListener('click', e=>{
+      const b = e.target.closest('button.add-btn');
+      if(b && b.dataset.id){
+        addToCart(b.dataset.id);
+        b.textContent = 'Đã thêm ✓';
+        b.disabled = true;
+        setTimeout(()=>{b.textContent = 'Thêm vào giỏ'; b.disabled = false;}, 900);
+      }
+    });
+    // Xóa sản phẩm khỏi giỏ hàng nhanh
+document.addEventListener('click', e=>{
+  const rm = e.target.closest('.remove-mini');
+  if(rm && rm.dataset.id){
+    const id = rm.dataset.id;
+    const cart = getCart();
+    if(cart[id]) delete cart[id];
+    saveCart(cart);
+    renderMiniCart();
+    toastRemoved();
+  }
+});
+
+function toastRemoved(){
+  const t = document.createElement('div');
+  t.style.position='fixed'; t.style.right='20px'; t.style.bottom='20px';
+  t.style.background='#f44336'; t.style.color='#fff'; t.style.padding='10px 14px';
+  t.style.borderRadius='10px'; t.style.boxShadow='0 10px 30px rgba(0,0,0,0.2)';
+  t.style.fontWeight='800'; t.textContent='Đã xóa sản phẩm khỏi giỏ';
+  document.body.appendChild(t);
+  setTimeout(()=>t.style.opacity='0',2000);
+  setTimeout(()=>t.remove(),2600);
+}
+
+
+    // render mini cart in sidebar
+    function renderMiniCart(){
+  const cart = getCart();
+  const el = document.getElementById('miniCart');
+  const keys = Object.keys(cart);
+  if(!keys.length){ 
+    el.innerHTML = 'Không có sản phẩm'; 
+    return; 
+  }
+
+  let html = '<div style="display:flex;flex-direction:column;gap:8px">';
+  let total = 0;
+  keys.forEach(id=>{
+    const it = cart[id];
+    total += it.price * it.qty;
+    html += `
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff;padding:6px 8px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.05)">
+        <div style="flex:1;font-size:13px">
+          <strong>${escapeHtml(it.name)}</strong> x${it.qty}
+        </div>
+        <div style="font-weight:700;font-size:13px">${formatVND(it.price*it.qty)}đ</div>
+        <button class="remove-mini" data-id="${id}" style="background:none;border:none;color:#f44336;cursor:pointer;font-size:16px" title="Xóa sản phẩm">🗑️</button>
+      </div>`;
+  });
+  html += `<div style="border-top:1px dashed #ccc;padding-top:8px;margin-top:6px;font-weight:900">Tổng: ${formatVND(total)}đ</div></div>`;
+  el.innerHTML = html;
+}
+    function toastAdded(){
+      // simple toast in corner
+      const t = document.createElement('div');
+      t.style.position='fixed'; t.style.right='20px'; t.style.bottom='20px';
+      t.style.background='linear-gradient(90deg,var(--primary),var(--primary-dark))';
+      t.style.color='#fff'; t.style.padding='10px 14px'; t.style.borderRadius='10px';
+      t.style.boxShadow='0 10px 30px rgba(0,0,0,0.2)'; t.style.fontWeight='800';
+      t.textContent = 'Đã thêm vào giỏ hàng';
+      document.body.appendChild(t);
+      setTimeout(()=>t.style.opacity='0',2000);
+      setTimeout(()=>t.remove(),2600);
+    }
+
+    /***********************
+     * Search on this page
+     ***********************/
+    function applyPromoSearch(){
+      const q = (document.getElementById('promoSearch').value || '').trim().toLowerCase();
+      const filtered = promoList.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+      renderPromoGrid(filtered);
+    }
+
+    /***********************
+     * Subscribe (demo)
+     ***********************/
+    function subscribe(){
+      const email = document.getElementById('emailSub').value.trim();
+      if(!email || !email.includes('@')){ alert('Vui lòng nhập email hợp lệ'); return; }
+      document.getElementById('emailSub').value='';
+      alert('Cảm ơn! Chúng tôi đã gửi ưu đãi đến ' + email);
+    }
+
+    /***********************
+     * Scroll fade-in for section titles
+     ***********************/
+    const titles = document.querySelectorAll('.section-title');
+    function handleScroll(){
+      const trigger = window.innerHeight * 0.86;
+      titles.forEach(t=>{
+        const r = t.getBoundingClientRect();
+        if(r.top < trigger && r.bottom > 0) t.classList.add('visible'); else t.classList.remove('visible');
+      });
+    }
+    window.addEventListener('scroll', handleScroll);
+
+    /***********************
+     * Init
+     ***********************/
+    let cdInterval = null;
+    document.addEventListener('DOMContentLoaded', ()=>{
+      renderFlashItems();
+      renderPromoGrid(promoList);
+      renderMiniCart();
+      // countdown
+      updateCountdown();
+      cdInterval = setInterval(updateCountdown, 1000);
+      // fade-in initial
+      handleScroll();
+    });
+
+    // also render flash list countdown update when a product added (visual)
+    // (delegated add buttons already wired)
+
+  </script>
+</body>
+</html>

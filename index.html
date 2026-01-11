@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cửa hàng Thực phẩm Sấy Khô</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box; 
+      font-family: Arial, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+/* ===== HEADER MỘT HÀNG ===== */
+.main-header {
+  background-color: #8bc34a;
+  color: white;
+  padding: 10px 20px;
+}
+
+.header-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* LOGO */
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  white-space: nowrap;
+  margin-right: 15px;
+}
+
+/* MENU CHÍNH */
+.main-menu {
+  display: flex;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.main-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+}
+.main-menu a:hover {
+  border-bottom: 2px solid white;
+}
+
+/* THANH TÌM KIẾM */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  flex: 1;
+  max-width: 300px;
+}
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  width: 100%;
+  font-size: 14px;
+}
+.search-bar button {
+  background: #ffeb3b;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.search-bar button:hover {
+  background: #fdd835;
+}
+
+/* ĐĂNG NHẬP / ĐĂNG KÝ */
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+.account-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+.user-icon {
+  font-size: 20px;
+  margin-right: 6px;
+}
+.account-text .small {
+  font-size: 12px;
+  opacity: 0.9;
+}
+.account-text .bold {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .header-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .main-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .search-bar {
+    max-width: 250px;
+  }
+}
+
+
+    /* BANNER */
+    .banner {
+      background: url('https://chonongsanonline.com/public/uploads/all/UsUxuohSoFoigiLdmlpXqLvp3RSSLqf1iy1ACbU9.jpg') no-repeat center/cover;
+      height: 550px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+    }
+    .banner h1 {
+      font-size: 48px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    /* Danh mục nổi bật */
+    .featured-categories {
+      padding: 40px 0;
+      background: #f9f9f9;
+    }
+    .featured-categories .container {
+      width: 90%;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+    .fc-title {
+      text-align: center;
+      font-size: 30px;
+      color: #689f38;
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+    .fc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 50px;
+      justify-items: center;
+    }
+    .fc-item {
+      background: #fff;
+      border-radius: 40px;
+      padding: 20px 10px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    .fc-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .fc-item img {
+      width: 100%;
+      height: 220px;
+      object-fit: contain;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      background-color: #fff;
+    }
+    .fc-item p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    /* SẢN PHẨM */
+    .products {
+      padding: 50px 80px;
+      text-align: center;
+    }
+    .products h2 {
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #4caf50;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .product-card img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;        /* làm ảnh phủ kín vùng bo tròn */
+  border-radius: 40px;      /* bo tròn cả khung và ảnh thật */
+  overflow: hidden;         /* cắt ảnh theo bo tròn */
+  display: block;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+/* Cố định khung ảnh đều nhau, không bị cắt */
+.new-products .product-card {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.new-products .product-card img {
+  width: 70%;               /* ✅ thu nhỏ chiều ngang khung trắng */
+  height: 260px;            /* giữ chiều cao vừa khít ảnh */
+  object-fit: contain;      /* ảnh tự co để không bị cắt */
+  border-radius: 20px;
+  background: #fff;
+  padding: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: block;
+  margin: 0 auto;           /* ✅ căn giữa ảnh trong khung */
+}
+
+
+
+.product-card img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+    .product-info {
+      min-height: 85px;
+      margin: 10px 0;
+    }
+   .product-card h3 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #333;
+  transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.product-card h3:hover {
+  color: #ff5722; /* Màu sắc khi hover (màu cam) */
+  transform: scale(1.05); /* Phóng to khi hover */
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Thêm hiệu ứng đổ bóng */
+}
+
+/* Hiệu ứng cho tên sản phẩm khi hover */
+.product-card h3 {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+    
+/* Style for product price */
+.product-card p {
+  color: #ff0202;
+  font-size: 20px; /* Increased font size */
+  font-weight: bold; /* Make the price bold */
+}
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #8bc34a;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease;
+      align-self: center;
+    }
+    .btn:hover {
+      background: #689f38;
+    }
+
+    /* GIỚI THIỆU */
+    #gioithieu {
+      background: #f1f8e9;
+      padding: 60px 80px;
+      text-align: center;
+    }
+    #gioithieu h2 {
+      font-size: 32px;
+      color: #4caf50;
+      margin-bottom: 20px;
+    }
+    #gioithieu p {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      font-size: 18px;
+      color: #555;
+      line-height: 1.8;
+    }
+    #gioithieu ul {
+      list-style: none;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+      text-align: left;
+    }
+    #gioithieu ul li {
+      font-size: 18px;
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+    }
+    #gioithieu ul li::before {
+      content: "✔";
+      color: #689f38;
+      position: absolute;
+      left: 0;
+    }
+    #gioithieu img {
+      width: 80%;
+      max-width: 900px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
+    }
+
+    /* GIỎ HÀNG */
+    #cart {
+      position: fixed;
+      right: 20px;
+      top: 100px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      width: 250px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    #cart h3 {
+      margin-bottom: 10px;
+      color: #4caf50;
+    }
+    #cart ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    #cart li {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    #cart p {
+      font-weight: bold;
+    }
+
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    .best-sellers {
+      padding: 50px 80px;
+      text-align: center;
+    }
+    .best-sellers h2 {
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #4caf50;
+    }
+     /* FOOTER */
+    footer {
+  background: #4c4a24; /* màu giống ảnh mẫu */
+  color: #fff;
+  padding: 60px 0 20px;
+  position: relative;
+  overflow: visible;
+  font-family: Arial, sans-serif;
+}
+/* --- Căn chỉnh logo mạng xã hội --- */
+.social-icons {
+  display: flex;                /* hiển thị ngang hàng */
+  justify-content: center;      /* căn giữa theo chiều ngang */
+  align-items: center;          /* căn giữa theo chiều dọc */
+  gap: 30px;                    /* khoảng cách giữa các logo */
+  margin-top: 15px;
+}
+
+/* Nếu dùng biểu tượng Font Awesome */
+.social-icons a {
+  text-decoration: none;
+  font-size: 28px;              /* kích thước icon */
+  color: #fff;                  /* màu mặc định */
+  transition: transform 0.3s, color 0.3s;
+}
+.social-icons a:hover {
+  transform: scale(1.3);
+  color: #ffeb3b;               /* khi hover đổi màu vàng nhẹ */
+}
+
+/* Nếu dùng hình ảnh logo */
+.social-icons img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.social-icons img:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+
+/* container căn trái (không sử dụng margin:auto) */
+.footer-inner {
+  width: 1200px;                /* chiều rộng nội dung */
+  max-width: calc(100% - 120px);/* để chừa khoảng cho logo facebook lớn */
+  margin: 0;
+  padding-left: 60px;           /* đẩy nội dung từ trái vào giống mẫu */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* kiểu chữ / list */
+.footer-col h4 {
+  font-size: 15px;
+  margin-bottom: 12px;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.footer-col p,
+.footer-col li,
+.footer-col a {
+  color: #e0d9c7;
+  font-size: 14px;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+/* important: xóa bullet list hoàn toàn trong footer */
+footer ul,
+footer li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* fanpage iframe */
+.fanpage-box iframe {
+  width: 100%;
+  height: 180px;
+  border: 0;
+  overflow: hidden;
+}
+.footer-fb-big span {
+  font-size: 140px;
+  color: #2b2b2b; /* giống tone logo lớn trong ảnh */
+  font-weight: 700;
+  transform: translateY(-6px);
+}
+
+/* bottom bar */
+.footer-bottom {
+  background: #111;
+  color: #ccc;
+  text-align: center;
+  padding: 12px;
+  margin-top: 24px;
+  font-size: 13px;
+}
+
+/* Responsive: 2 cột và 1 cột */
+@media (max-width: 1000px) {
+  .footer-inner { grid-template-columns: repeat(2, 1fr); max-width: 100%; padding-left: 30px; }
+  .footer-fb-big { right: 30px; bottom: 20px; width: 140px; height: 140px; }
+  .footer-fb-big span { font-size: 80px; }
+}
+@media (max-width: 600px) {
+  .footer-inner { grid-template-columns: 1fr; padding-left: 20px; gap: 18px; }
+  .footer-fb-big { display: none; } /* ẩn logo lớn trên mobile */
+}
+
+    /* Phần Sản phẩm bán chạy nhất */
+    .best-sellers {
+      padding: 50px 80px;
+      text-align: center;
+    }
+    .best-sellers h2 {
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #4caf50;
+    }
+   /* ===== HIỆU ỨNG CHO TIÊU ĐỀ ===== */
+.section-title {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.section-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+  color: #4caf50;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+/* Loại bỏ dấu gạch ngang cho tất cả các liên kết trong sản phẩm */
+.fc-item a {
+  text-decoration: none !important; /* Loại bỏ dấu gạch ngang dưới tên sản phẩm */
+}
+
+.fc-item a p {
+  font-size: 23px; /* Tăng kích thước chữ */
+  font-weight: bold; /* Làm chữ đậm */
+  color: #020302; /* Màu chữ xanh lá bắt mắt */
+  text-transform: uppercase; /* Viết hoa tất cả chữ */
+  letter-spacing: 1px; /* Khoảng cách giữa các chữ */
+  transition: color 0.3s ease, transform 0.3s ease; /* Thêm hiệu ứng chuyển màu và phóng to khi hover */
+}
+
+.fc-item a:hover p {
+  color: #ff5722; /* Thay đổi màu khi hover (màu cam) */
+  transform: scale(1.1); /* Phóng to chữ khi hover */
+}
+.remove-item {
+  background-color: #ff5722; /* Màu đỏ cho nút xóa */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.remove-item:hover {
+  background-color: #e64a19; /* Hiệu ứng hover khi xóa */
+}
+/* Thêm màu nền cho phần header */
+.main-header {
+  background-color: #8bc34a; /* Chỉnh lại màu nền cho header */
+  color: white;
+  padding: 10px 20px;
+}
+
+/* Thêm màu nền cho phần danh mục nổi bật */
+.featured-categories {
+  background-color: #dff8d5; /* Màu xanh dương cho phần danh mục nổi bật */
+  padding: 40px 0;
+}
+
+body {
+  background-color: #fadeaa; /* Màu nền xanh nhạt */
+  color: #333;
+  line-height: 1.6;
+}
+/* ===== SỬA PHẦN SẢN PHẨM BÁN CHẠY NHẤT ===== */
+
+.best-sellers .product-card {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.best-sellers .product-card img {
+  width: 85%;                 /* Ảnh vừa khít khung */
+  height: 260px;
+  object-fit: contain;        /* Không bị cắt ảnh */
+  border-radius: 12px;
+  background: #fff;
+  padding: 3px;               /* Giảm padding để khung sát ảnh */
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0px 2px 3px rgba(0,0,0,0.1);
+}
+
+.best-sellers .product-info {
+  margin-top: 12px;
+}
+
+.best-sellers h3 {
+  font-size: 22px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.best-sellers p {
+  color: #ff0202;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="main-header">
+  <div class="header-container">
+    <!-- Logo -->
+    <div class="logo">🌿 <strong>Dinh Dưỡng Sấy Khô</strong></div>
+
+    <!-- Menu chính -->
+    <nav class="main-menu">
+      <a href="#">Trang chủ</a>
+      <a href="shop.html">Sản phẩm</a>
+      <a href="promotion.html">Khuyến mãi</a>
+      <a href="introduce.html">Giới thiệu</a>
+      <a href="contact.html">Liên hệ</a>
+    </nav>
+
+    <!-- Thanh tìm kiếm -->
+    <form class="search-bar">
+      <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+      <button type="submit">🔍</button>
+    </form>
+
+    <!-- Đăng nhập / Đăng ký -->
+    <div class="account">
+      <a href="login.html" class="account-link">
+        <span class="user-icon">👤</span>
+        <div class="account-text">
+          <span class="small">Đăng nhập / Đăng ký</span><br>
+          <span class="bold">Tài khoản</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</header>
+  <!-- BANNER -->
+  <section class="banner">
+    <h1>Thực Phẩm Sấy Khô Tự Nhiên & Ngon Lành</h1>
+  </section>
+
+  <!-- DANH MỤC NỔI BẬT -->
+  <section class="featured-categories">
+    <div class="container">
+      <h2 class="fc-title section-title">Danh mục nổi bật</h2>
+      <div class="fc-grid">
+        <div class="fc-item">
+          <a href="#"><img src="https://happyfood.vn/wp-content/uploads/2022/04/Picture1trewtg.png" alt="Trái cây sấy"/><p>Trái cây sấy khô</p></a>
+        </div>
+        <div class="fc-item">
+          <a href="#"><img src="https://www.lottemart.vn/media/catalog/product/cache/0x0/8/9/8936108170210-3.jpg.webp" alt="Rau củ sấy"/><p>Rau củ sấy</p></a>
+        </div>
+        <div class="fc-item">
+          <a href="#"><img src="https://www.hangngoainhap.com.vn/images/upload/Image/Cac-loai-hat-say-kho-min(1).jpg" alt="Các loại hạt sấy"/><p>Các loại hạt sấy</p></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SẢN PHẨM MỚI -->
+  <section class="products new-products">
+    <h2 class="section-title"> Sản phẩm mới</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="https://www.thtbstore.com/cdn/shop/files/3_09bb69a8-ecb9-4a59-b703-c19f7673eaeb_800x.jpg?v=1709268463" alt="Chuối sấy" />
+        <div class="product-info"><h3>Chuối sấy</h3><p>50.000đ / 200g</p></div>
+        <button class="btn" onclick="addToCart('Chuối sấy', 50000)">Thêm vào giỏ</button>
+      </div>
+      <div class="product-card">
+        <img src="https://lh3.googleusercontent.com/proxy/2MJwiUs_x1lwKeyRgvJJmXyma_u2xSqNsKrw4ESjSiSc7qg2U-6-EhDALmRncY2YRjulw3-2qDP6HqmWqR3h6u38Rcw8Tn8JsBzjtYBgoZBE3deHjnm15uCwM_npJV8" alt="Rau củ sấy" />
+        <div class="product-info"><h3>Rau củ sấy</h3><p>70.000đ / 500g</p></div>
+        <button class="btn" onclick="addToCart('Rau củ sấy', 70000)">Thêm vào giỏ</button>
+      </div>
+      <div class="product-card">
+        <img src="https://maysaycongnghiep.com.vn/wp-content/uploads/2024/01/mit-say-thanh-pham-gion-ngon.webp" alt="Mít sấy" />
+        <div class="product-info"><h3>Mít sấy</h3><p>160.000đ / 500g</p></div>
+        <button class="btn" onclick="addToCart('Mít sấy', 160000)">Thêm vào giỏ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SẢN PHẨM BÁN CHẠY NHẤT -->
+  <section class="best-sellers">
+    <h2 class="section-title">Sản phẩm bán chạy nhất</h2>
+    <div class="product-grid">
+      <div class="product-card"><img src="https://langfarm-backend.s3.amazonaws.com/4.enjoy-soft-dried-mango-slices.jpg" alt="Xoài sấy" /><div class="product-info"><h3>Xoài sấy</h3><p>100.000đ / 500g</p></div><button class="btn" onclick="addToCart('Xoài sấy', 100000)">Thêm vào giỏ</button></div>
+      <div class="product-card"><img src="https://tramangcau.vn/wp-content/uploads/2025/03/Cac-cach-dung-mang-cau-xiem-say-deo-ngon-mieng-dam-bao-dinh-duong.jpg" alt="Mãng cầu sấy" /><div class="product-info"><h3>Mãng cầu sấy</h3><p>130.000đ / 500g</p></div><button class="btn" onclick="addToCart('Mãng cầu sấy', 130000)">Thêm vào giỏ</button></div>
+      <div class="product-card"><img src="https://dalatfarm.net/wp-content/uploads/2025/05/thom-say-deo-1.jpg" alt="Thơm sấy" /><div class="product-info"><h3>Thơm sấy</h3><p>100.000đ / 500g</p></div><button class="btn" onclick="addToCart('Thơm sấy', 100000)">Thêm vào giỏ</button></div>
+    </div>
+  </section>
+<!-- GIỎ HÀNG -->
+<div id="cart">
+  <a href="shopping-cart.html" style="font-weight:bold; color:#4caf50;">🛒 Xem giỏ hàng</a>
+  <ul id="cart-items"></ul>
+  <p>Tổng: <span id="total">0</span></p>
+</div>
+    <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <!-- Cột 1: Giới thiệu công ty -->
+      <div class="footer-col">
+        <h4>🌿 DINH DƯỠNG SẤY KHÔ</h4>
+        <p>Chuyên cung cấp thực phẩm sấy khô tự nhiên – an toàn – tốt cho sức khỏe.</p>
+        <p><strong>Địa chỉ:</strong> 123 Nguyễn Văn Linh, TP. Hồ Chí Minh</p>
+        <p><strong>SĐT:</strong> 0902 451 215</p>
+        <p><strong>Email:</strong> lienhe@dinhduongsaykho.com</p>
+        <p><strong>Website:</strong> <a href="https://thucphamsachmecool.com" target="_blank">dinhduongsaykho.com</a></p>
+      </div>
+
+      <!-- Cột 2: Hỗ trợ khách hàng -->
+      <div class="footer-col">
+        <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+        <ul>
+          <li><a href="#">Chính sách giao hàng</a></li>
+          <li><a href="#">Chính sách đổi trả</a></li>
+          <li><a href="#">Chính sách bảo mật</a></li>
+          <li><a href="#">Hướng dẫn mua hàng</a></li>
+          <li><a href="#">Câu hỏi thường gặp</a></li>
+        </ul>
+        <img src="https://webmedia.com.vn/images/2021/09/logo-da-thong-bao-bo-cong-thuong-mau-xanh.png" 
+             alt="Bộ công thương" style="width:120px;margin-top:12px;">
+      </div>
+
+      <!-- Cột 3: Ưu đãi và tin tức -->
+      <div class="footer-col">
+        <h4>ƯU ĐÃI & TIN TỨC</h4>
+        <ul>
+          <li><a href="#">Giảm giá 10% cho đơn đầu tiên</a></li>
+          <li><a href="#">Miễn phí vận chuyển nội thành</a></li>
+          <li><a href="#">Blog: Mẹo bảo quản thực phẩm sấy</a></li>
+          <li><a href="#">Bí quyết chọn trái cây sấy ngon</a></li>
+        </ul>
+      </div>
+
+      <!-- Cột 4: Kết nối với chúng tôi -->
+      <div class="footer-col">
+        <h4>KẾT NỐI VỚI CHÚNG TÔI</h4>
+        <div class="social-icons" style="display:flex;gap:12px;margin-top:10px;">
+  <a href="https://www.facebook.com/" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" width="32">
+  </a>
+  <a href="https://www.youtube.com/" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" width="32">
+  </a>
+  <a href="https://zalo.me/" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" width="32">
+  </a>
+  <a href="https://www.tiktok.com/" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok" width="32">
+  </a>
+</div>
+
+    </div>
+  </footer>
+
+  <script>
+  // ====== GIỎ HÀNG MINI & LOCALSTORAGE ======
+  function addToCart(name, price) {
+    const cart = JSON.parse(localStorage.getItem('cart') || '{}');
+    const id = name.replace(/\s+/g, '_').toLowerCase();
+    const productCard = event.target.closest('.product-card');
+    const img = productCard.querySelector('img')?.src || '';
+
+    if (!cart[id]) {
+      cart[id] = { id, name, price, quantity: 1, imgSrc: img };
+    } else {
+      cart[id].quantity += 1;
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+  }
+
+  function renderCart() {
+    const cartData = JSON.parse(localStorage.getItem('cart') || '{}');
+    const cartItems = document.getElementById('cart-items');
+    const total = document.getElementById('total');
+    cartItems.innerHTML = '';
+    let sum = 0;
+
+    Object.values(cartData).forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.name} x${item.quantity}`;
+      cartItems.appendChild(li);
+      sum += item.price * item.quantity;
+    });
+
+    total.textContent = sum.toLocaleString();
+  }
+
+  document.addEventListener('DOMContentLoaded', renderCart);
+
+  // ====== HIỆU ỨNG TIÊU ĐỀ ======
+  const titles = document.querySelectorAll('.section-title');
+  function handleScroll() {
+    const triggerBottom = window.innerHeight * 0.85;
+    titles.forEach(title => {
+      const rect = title.getBoundingClientRect();
+      if (rect.top < triggerBottom && rect.bottom > 0) {
+        title.classList.add('visible');
+      } else {
+        title.classList.remove('visible');
+      }
+    });
+  }
+  window.addEventListener('scroll', handleScroll);
+  handleScroll();
+</script>
+<!-- Nút mở trang Admin -->
+<a href="admin/index.html" class="admin-button" id="adminBtn" title="Đăng nhập quản trị">👤 Admin</a>
+<!-- Hiệu ứng + popup đăng nhập -->
+<style>
+.admin-button {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  background: linear-gradient(135deg, #8bc34a, #689f38);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: all 0.25s ease;
+  z-index: 9999;
+}
+.admin-button:hover {
+  background: linear-gradient(135deg, #7cb342, #558b2f);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* Popup nền mờ */
+#adminModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+#adminModal .box {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  animation: fadeIn .25s ease;
+}
+#adminModal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+#adminModal button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #689f38;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+#adminModal button:hover {
+  background: #558b2f;
+}
+@keyframes fadeIn { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+</style>
+
+<!-- Popup nhập mật khẩu -->
+<div id="adminModal">
+  <div class="box">
+    <h3>Đăng nhập quản trị</h3>
+    <input type="password" id="adminPass" placeholder="Nhập mật khẩu..." />
+    <button id="confirmAdmin">Đăng nhập</button>
+    <div style="font-size:13px;color:#777;margin-top:8px">Hoặc nhấn Esc để thoát</div>
+  </div>
+</div>
+
+<script>
+const adminBtn = document.getElementById('adminBtn');
+const modal = document.getElementById('adminModal');
+const passInput = document.getElementById('adminPass');
+const confirmBtn = document.getElementById('confirmAdmin');
+
+adminBtn.addEventListener('click', (e)=>{
+  e.preventDefault();
+  modal.style.display = 'flex';
+  passInput.value = '';
+  passInput.focus();
+});
+
+confirmBtn.addEventListener('click', ()=>{
+  const pass = passInput.value.trim();
+  if(pass === 'admin123'){ // 👉 đổi mật khẩu ở đây
+    window.location.href = 'admin/index.html';
+  } else {
+    alert('Sai mật khẩu!');
+  }
+});
+
+window.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') modal.style.display = 'none';
+});
+// Hàm xóa sản phẩm khỏi giỏ hàng
+function removeItem(productId) {
+  // Lấy giỏ hàng từ localStorage
+  const cartData = JSON.parse(localStorage.getItem('cart') || '{}');
+  
+  // Xóa sản phẩm khỏi giỏ hàng
+  delete cartData[productId];
+
+  // Lưu lại giỏ hàng đã cập nhật vào localStorage
+  localStorage.setItem('cart', JSON.stringify(cartData));
+
+  // Cập nhật lại giỏ hàng trên giao diện
+  renderCart();
+}
+
+// Hàm render lại giỏ hàng sau khi xóa sản phẩm
+function renderCart() {
+  const cartData = JSON.parse(localStorage.getItem('cart') || '{}');
+  const cartItems = document.getElementById('cart-items');
+  const total = document.getElementById('total');
+  
+  cartItems.innerHTML = ''; // Xóa nội dung cũ trong giỏ hàng
+  let sum = 0;
+
+  // Lặp qua các sản phẩm trong giỏ hàng và hiển thị
+  Object.values(cartData).forEach(item => {
+    const li = document.createElement('li');
+    li.id = item.id;
+    li.innerHTML = `
+      ${item.name} x${item.quantity} 
+      <button class="remove-item" onclick="removeItem('${item.id}')">Xóa</button>
+    `;
+    
+    // Thêm kiểu dáng cho nút xóa
+    li.querySelector('.remove-item').style.backgroundColor = '#f44336';
+    li.querySelector('.remove-item').style.color = 'white';
+    li.querySelector('.remove-item').style.border = 'none';
+    li.querySelector('.remove-item').style.padding = '5px 10px';
+    li.querySelector('.remove-item').style.borderRadius = '5px';
+    li.querySelector('.remove-item').style.cursor = 'pointer';
+
+    cartItems.appendChild(li);
+
+    // Tính tổng tiền
+    sum += item.price * item.quantity;
+  });
+
+  // Cập nhật tổng số tiền (VNĐ)
+  total.textContent = sum.toLocaleString() + ' VNĐ';  // Hiển thị tổng với VNĐ
+}
+
+// Hàm thêm sản phẩm vào giỏ hàng
+function addToCart(name, price) {
+  const cart = JSON.parse(localStorage.getItem('cart') || '{}');
+  const id = name.replace(/\s+/g, '_').toLowerCase();
+  const productCard = event.target.closest('.product-card');
+  const img = productCard.querySelector('img')?.src || '';
+
+  if (!cart[id]) {
+    cart[id] = { id, name, price, quantity: 1, imgSrc: img };
+  } else {
+    cart[id].quantity += 1;
+  }
+
+  // Lưu giỏ hàng vào localStorage
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  // Cập nhật lại giỏ hàng sau khi thêm sản phẩm
+  renderCart();
+}
+
+// Hàm hiển thị giỏ hàng khi trang được tải lần đầu
+document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+
+</body>
+</html>

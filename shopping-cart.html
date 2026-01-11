@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng - Dinh Dưỡng Sấy Khô</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8fff4;
+            margin: 0;
+            padding-bottom: 80px;
+            /* prevent content from being hidden behind footer */
+            color: #333;
+        }
+
+        header {
+            background-color: #8bc34a;
+            color: #fff;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            border-bottom: 2px solid white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+        }
+
+        h1 {
+            color: #4caf50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f4f9f2;
+            color: #4caf50;
+            font-weight: 600;
+        }
+
+        td img {
+            width: 80px;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .product-option {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-control button {
+            border: 1px solid #ccc;
+            background: #f4f4f4;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .quantity-control input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+            height: 30px;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-top: 15px;
+        }
+
+        .btn-checkout {
+            display: block;
+            width: 200px;
+            margin: 25px auto 0;
+            background: #8bc34a;
+            color: #fff;
+            text-align: center;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-checkout:hover {
+            background: #689f38;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 15px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">🌿 Dinh Dưỡng Sấy Khô</div>
+        <nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="shop.html">Sản phẩm</a>
+            <a href="promotion.html">Khuyến mãi</a>
+            <a href="shopping-cart.html">Giỏ hàng</a>
+            <a href="contact.html">Liên hệ</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>🛒 Giỏ hàng của bạn</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="dinhduongsaykho_cart_v1-items">
+                <!-- Dynamic cart content -->
+            </tbody>
+        </table>
+
+        <div class="total">Tổng cộng: <span>0₫</span></div>
+        <a href="checkout.html" class="btn-checkout">Mua hàng</a>
+    </div>
+
+    <footer>
+        © 2025 Dinh Dưỡng Sấy Khô | All Rights Reserved
+    </footer>
+
+    <script>
+        function formatCurrency(num) {
+            return num.toLocaleString('vi-VN') + '₫';
+        }
+
+        function parseCurrency(str) {
+            return Number(str.replace(/[₫.,]/g, match => (match === '.' ? '' : (match === ',' ? '' : '')))) || 0;
+        }
+
+        // Render cart items from localStorage
+       function renderCart() {
+    const cartContainer = document.getElementById('dinhduongsaykho_cart_v1-items');
+    const cartData = JSON.parse(localStorage.getItem('dinhduongsaykho_cart_v1') || '{}');
+
+    cartContainer.innerHTML = '';
+
+    if (Object.keys(cartData).length === 0) {
+        cartContainer.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center; padding:40px; color:#666;">
+                    🛒 Giỏ hàng của bạn đang trống.
+                </td>
+            </tr>
+        `;
+        document.querySelector('.total span').textContent = '0₫';
+        return;
+    }
+
+    Object.values(cartData).forEach((item) => {
+        const row = document.createElement('tr');
+        row.classList.add("id-" + item.id)  // Thêm class để nhận diện theo id
+        row.innerHTML = `
+            <td>
+                <div class="product-info">
+                    <img src="${item.img}" alt="${item.name}">
+                    <div>
+                        <div class="product-title">${item.name}</div>
+                    </div>
+                </div>
+            </td>
+            <td>${formatCurrency(item.price)}</td>
+            <td>
+                <div class="quantity-control">
+                    <button>-</button>
+                    <input type="text" value="${item.qty}">
+                    <button>+</button>
+                </div>
+            </td>
+            <td>${formatCurrency(item.price * item.qty)}</td>
+            <td><a href="#" style="color:red;">Xóa</a></td>
+        `;
+        cartContainer.appendChild(row);
+    });
+
+    setupCartEvents();
+    updateTotal();
+}
+function updateTotal() {
+    let total = 0;
+    document.querySelectorAll('#dinhduongsaykho_cart_v1-items tr').forEach(row => {
+        const cell = row.querySelector('td:nth-child(4)');
+        const amount = parseCurrency(cell.textContent);
+        total += amount;
+    });
+    document.querySelector('.total span').textContent = formatCurrency(total);
+}
+
+        function setupCartEvents() {
+            const rows = document.querySelectorAll('#dinhduongsaykho_cart_v1-items tr');
+            const cartData = JSON.parse(localStorage.getItem('dinhduongsaykho_cart_v1') || '{}')
+            console.log("rows", rows);
+            
+
+            rows.forEach((row, index) => {
+                const priceCell = row.querySelector('td:nth-child(2)');
+                const qtyInput = row.querySelector('.quantity-control input');
+                const minusBtn = row.querySelector('.quantity-control button:first-child');
+                const plusBtn = row.querySelector('.quantity-control button:last-child');
+                const totalCell = row.querySelector('td:nth-child(4)');
+                const deleteLink = row.querySelector('td:last-child a');
+
+                const classNameOfRow = row.className
+                
+                let id = classNameOfRow.split("-")[1]
+
+                const price = parseCurrency(priceCell.textContent);
+
+                function updateRowTotal() {
+                    const qty = parseInt(qtyInput.value) || 1;
+                    totalCell.textContent = formatCurrency(price * qty);
+                    cartData[id].quantity = qty;
+                    localStorage.setItem('dinhduongsaykho_cart_v1', JSON.stringify(cartData));
+                    updateTotal();
+                }
+
+                plusBtn.addEventListener('click', () => {
+                    qtyInput.value = parseInt(qtyInput.value) + 1;
+                    updateRowTotal();
+                });
+
+                minusBtn.addEventListener('click', () => {
+                    const current = parseInt(qtyInput.value);
+                    if (current > 1) {
+                        qtyInput.value = current - 1;
+                        updateRowTotal();
+                    }
+                });
+
+                qtyInput.addEventListener('input', () => {
+                    let val = parseInt(qtyInput.value);
+                    if (isNaN(val) || val < 1) val = 1;
+                    qtyInput.value = val;
+                    updateRowTotal();
+                });
+
+                deleteLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    delete cartData[id]
+                    localStorage.setItem('dinhduongsaykho_cart_v1', JSON.stringify(cartData));
+                    renderCart();
+                });
+            });
+        }
+
+        // Run on load
+        renderCart();
+    </script>
+</body>
+
+</html>

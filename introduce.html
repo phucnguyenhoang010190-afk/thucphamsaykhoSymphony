@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Giới thiệu - Dinh Dưỡng Sấy Khô</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/415/415733.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background: #f9f9f9; color: #333; line-height: 1.7; }
+    html { scroll-behavior: smooth; }
+
+    /* HEADER */
+    .main-header {
+      background-color: #8bc34a;
+      color: white;
+      padding: 10px 20px;
+    }
+    .header-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo { font-size: 20px; font-weight: bold; white-space: nowrap; }
+    .main-menu { display: flex; gap: 20px; }
+    .main-menu a { color: white; text-decoration: none; font-weight: 500; font-size: 15px; }
+    .main-menu a:hover { border-bottom: 2px solid white; }
+    .search-bar { display: flex; align-items: center; background: white; border-radius: 6px; border: 1px solid #ccc; flex: 1; max-width: 300px; overflow: hidden; }
+    .search-bar input { border: none; outline: none; padding: 8px 10px; width: 100%; }
+    .search-bar button { background: #ffeb3b; border: none; padding: 8px 12px; cursor: pointer; font-weight: 600; }
+    .account { display: flex; align-items: center; }
+    .account-link { color: white; text-decoration: none; display: flex; align-items: center; }
+    .user-icon { margin-right: 6px; }
+
+    /* BANNER */
+    .intro-banner {
+      background: url('https://langfarm-backend.s3.amazonaws.com/4.enjoy-soft-dried-mango-slices.jpg') center/cover no-repeat;
+      height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+    .intro-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+    }
+    .intro-banner h1 {
+      position: relative;
+      font-size: 48px;
+      font-weight: bold;
+      z-index: 1;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+    }
+
+    /* GIỚI THIỆU */
+    .intro-section {
+      background: #f1f8e9;
+      padding: 60px 80px;
+      text-align: center;
+    }
+    .intro-section h2 {
+      font-size: 36px;
+      color: #4caf50;
+      margin-bottom: 25px;
+    }
+    .intro-section p {
+      max-width: 950px;
+      margin: 0 auto 20px;
+      font-size: 18px;
+      color: #555;
+      text-align: justify;
+    }
+
+    /* BỘ ẢNH */
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .image-gallery img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    .gallery-item {
+  text-align: center;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.05);
+}
+
+.gallery-item p {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4caf50;
+}
+
+
+    /* GIÁ TRỊ CỐT LÕI */
+    .core-values {
+      background: white;
+      padding: 60px 80px;
+      text-align: center;
+    }
+    .core-values h2 {
+      font-size: 30px;
+      color: #4caf50;
+      margin-bottom: 25px;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .value-item {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    .value-item:hover { transform: translateY(-5px); }
+    .value-item h3 { color: #689f38; margin-bottom: 12px; }
+
+    /* FOOTER */
+    footer {
+      background: #4c4a24;
+      color: #fff;
+      padding: 60px 0 20px;
+    }
+    .footer-inner {
+      width: 1200px;
+      max-width: calc(100% - 120px);
+      margin: 0 auto;
+      padding-left: 60px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+    }
+    .footer-col h4 { font-size: 15px; margin-bottom: 12px; color: #fff; font-weight: 700; text-transform: uppercase; }
+    .footer-col p, .footer-col a, .footer-col li { color: #e0d9c7; font-size: 14px; line-height: 1.6; text-decoration: none; }
+    .social-icons { display: flex; gap: 12px; margin-top: 10px; }
+    .social-icons img { width: 32px; height: 32px; border-radius: 50%; transition: transform 0.3s; }
+    .social-icons img:hover { transform: scale(1.2); opacity: 0.85; }
+    .footer-bottom { background: #111; color: #ccc; text-align: center; padding: 12px; margin-top: 24px; font-size: 13px; }
+
+    @media (max-width: 900px) {
+      .header-container { flex-wrap: wrap; justify-content: center; }
+      .intro-section, .core-values { padding: 40px 20px; }
+      .footer-inner { grid-template-columns: 1fr; padding-left: 30px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo">🌿 <strong>Dinh Dưỡng Sấy Khô</strong></div>
+      <nav class="main-menu">
+        <a href="index.html">Trang chủ</a>
+        <a href="shop.html">Sản phẩm</a>
+        <a href="promotion.html">Khuyến mãi</a>
+        <a href="#">Giới thiệu</a>
+        <a href="contact.html">Liên hệ</a>
+      </nav>
+      <form class="search-bar">
+        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+        <button type="submit">🔍</button>
+      </form>
+      <div class="account">
+        <a href="login.html" class="account-link">
+          <span class="user-icon">👤</span>
+          <div class="account-text">
+            <span class="small">Đăng nhập / Đăng ký</span><br>
+            <span class="bold">Tài khoản</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER -->
+  <section class="intro-banner">
+    <h1>Khám Phá Hành Trình Từ Thiên Nhiên Đến Sản Phẩm Sấy Khô</h1>
+  </section>
+
+  <!-- GIỚI THIỆU -->
+  <section class="intro-section">
+    <h2>Giới Thiệu Thương Hiệu</h2>
+    <p><strong>Dinh Dưỡng Sấy Khô</strong> là thương hiệu tiên phong trong lĩnh vực thực phẩm sấy tự nhiên, mang sứ mệnh
+    lan tỏa phong cách sống lành mạnh đến mọi gia đình Việt. Với phương châm <em>“Ăn sạch – sống khỏe – tận hưởng thiên nhiên”</em>,
+    chúng tôi chọn lựa những nguyên liệu tươi ngon nhất từ nông trại Việt, sấy khô bằng công nghệ hiện đại để giữ trọn vị ngon và dưỡng chất.</p>
+
+    <div class="image-gallery">
+      <img src="https://hfoods.vn/wp-content/uploads/2025/04/CONG-NHAN-NHA-MAY-DANG-THUC-HIEN-SO-CHE-XOAI.png" alt="Phân loại chất lượng sản phẩm">
+      <img src="https://baothainguyen.vn/file/oldimage/baothainguyen/UserFiles/image/1_hwbe(1).jpg" alt="Nghiên cứu sản phẩm mới">
+      <img src="https://cafefcdn.com/203337114487263232/2023/1/2/photo-13-1672644313990876678361.jpg" alt="Người dân thu hoạch trái cây">
+    </div>
+
+    <br><p>Chúng tôi không chỉ cung cấp sản phẩm, mà còn truyền cảm hứng về lối sống xanh, hướng tới sự cân bằng giữa thiên nhiên và sức khỏe con người. 
+    Mỗi gói trái cây sấy là kết tinh của sự tận tâm, tinh tế và niềm tin vào nông sản Việt Nam chất lượng cao.</p>
+  </section>
+
+  <!-- QUY TRÌNH SẢN XUẤT -->
+<!-- QUY TRÌNH SẢN XUẤT -->
+<section class="core-values">
+  <h2>Quy Trình Sản Xuất Sạch & An Toàn</h2>
+
+  <!-- Gallery căn giữa -->
+  <div class="image-gallery" style="
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+  ">
+
+    <div class="gallery-item" style="text-align: center;">
+      <img src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2023/1/26/1141371/DSC_6821-2.JPG" 
+           alt="Thu hoạch nông sản"
+           style="width: 100%; max-width: 350px; height: 220px; object-fit: cover; border-radius: 16px;">
+      <p style="margin-top: 10px; font-size: 16px; font-weight: 600; color: #4caf50;">🌾 Thu hoạch nông sản</p>
+    </div>
+
+    <div class="gallery-item" style="text-align: center;">
+      <img src="https://dienmaykhoiminh.com/wp-content/uploads/2022/03/may-say-thang-hoa-trong-nhu-the-nao.jpg" 
+           alt="Công nghệ sấy hiện đại"
+           style="width: 100%; max-width: 350px; height: 220px; object-fit: cover; border-radius: 16px;">
+      <p style="margin-top: 10px; font-size: 16px; font-weight: 600; color: #4caf50;">⚙️ Công nghệ sấy hiện đại</p>
+    </div>
+
+    <div class="gallery-item" style="text-align: center;">
+      <img src="donggoi.jpg" 
+           alt="Đóng gói thành phẩm"
+           style="width: 100%; max-width: 350px; height: 220px; object-fit: cover; border-radius: 16px;">
+      <p style="margin-top: 10px; font-size: 16px; font-weight: 600; color: #4caf50;">📦 Đóng gói thành phẩm</p>
+    </div>
+
+  </div>
+
+  <!-- Đoạn văn dưới 3 hình ảnh -->
+  <p style="
+      margin-top: 40px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: justify;
+      font-size: 18px;
+      color: #555;
+  ">
+    Toàn bộ quy trình được giám sát nghiêm ngặt từ khâu chọn lọc nguyên liệu, rửa sạch, 
+    sấy bằng công nghệ hiện đại cho đến đóng gói.<br>
+    Chúng tôi cam kết đảm bảo sản phẩm đạt chuẩn an toàn thực phẩm, giữ trọn giá trị 
+    dinh dưỡng tự nhiên và mang đến sự an tâm cho người tiêu dùng.
+  </p>
+
+</section>
+
+
+  <!-- GIÁ TRỊ CỐT LÕI -->
+  <section class="core-values">
+    <h2>Giá Trị Cốt Lõi & Tầm Nhìn</h2>
+    <div class="values-grid">
+      <div class="value-item"><h3>🌿 Chất lượng hàng đầu</h3><p>Cam kết sản phẩm sạch 100%, được kiểm soát chặt chẽ từ nguyên liệu đến tay người tiêu dùng.</p></div>
+      <div class="value-item"><h3>🤝 Tận tâm & Uy tín</h3><p>Đặt lợi ích và sức khỏe khách hàng lên hàng đầu, giữ chữ “Tín” trong mọi hoạt động.</p></div>
+      <div class="value-item"><h3>💡 Sáng tạo & Phát triển</h3><p>Không ngừng cải tiến công nghệ và mẫu mã để mang đến trải nghiệm tốt nhất.</p></div>
+      <div class="value-item"><h3>🌎 Tầm nhìn bền vững</h3><p>Phát triển thương hiệu Việt vươn tầm quốc tế, thúc đẩy lối sống xanh và lành mạnh.</p></div>
+    </div>
+
+    <div class="image-gallery" style="margin-top:50px;">
+      <img src="https://down-vn.img.susercontent.com/vn-11134259-7r98o-lwgkwsheq2mze4@resize_w800" alt="Cửa hàng trưng bày">
+      <img src="https://vnchilli.com/wp-content/uploads/2021/11/di%CC%A3ch-vu%CC%A3-say-kho-1.jpeg" alt="Đội ngũ nhân viên">
+      <img src="khachhang.jpg" alt="Khách hàng hài lòng">
+      <p style="margin-top: 10px; font-size: 16px; font-weight: 600; color: #4caf50;"></p>
+    </div>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          text-align: center;
+      }
+
+      /* --- GALLERY 3 ẢNH CÂN BẰNG --- */
+      .image-gallery {
+          margin-top: 50px;
+          display: flex;
+          justify-content: center;
+          gap: 30px;
+      }
+
+      .image-gallery img {
+          width: 380px;          /* 3 ảnh bằng nhau */
+          height: 230px;         /* cùng chiều cao */
+          object-fit: cover;     /* không méo hình */
+          border-radius: 20px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          transition: transform 0.3s ease;
+      }
+
+      .image-gallery img:hover {
+          transform: scale(1.05);
+      }
+
+      .btn {
+          padding:12px 25px;
+          background:#8bc34a;
+          color:#fff;
+          border-radius:8px;
+          text-decoration:none;
+          font-weight:600;
+      }
+  </style>
+    <div style="margin-top:40px;">
+      <a href="shop.html" class="btn" style="padding:12px 25px;background:#8bc34a;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Khám phá sản phẩm</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>🌿 DINH DƯỠNG SẤY KHÔ</h4>
+        <p>Chuyên cung cấp thực phẩm sấy khô tự nhiên – an toàn – tốt cho sức khỏe.</p>
+        <p><strong>Địa chỉ:</strong> 123 Nguyễn Văn Linh, TP. Hồ Chí Minh</p>
+        <p><strong>SĐT:</strong> 0902 451 215</p>
+        <p><strong>Email:</strong> lienhe@dinhduongsaykho.com</p>
+      </div>
+      <div class="footer-col">
+        <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+        <ul>
+          <li><a href="#">Chính sách giao hàng</a></li>
+          <li><a href="#">Chính sách đổi trả</a></li>
+          <li><a href="#">Chính sách bảo mật</a></li>
+          <li><a href="#">Hướng dẫn mua hàng</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>ƯU ĐÃI & TIN TỨC</h4>
+        <ul>
+          <li><a href="#">Giảm giá 10% cho đơn đầu tiên</a></li>
+          <li><a href="#">Miễn phí vận chuyển nội thành</a></li>
+          <li><a href="#">Blog: Bí quyết chọn trái cây sấy ngon</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>KẾT NỐI VỚI CHÚNG TÔI</h4>
+        <div class="social-icons">
+          <a href="https://facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook"></a>
+          <a href="https://youtube.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+          <a href="https://zalo.me" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo"></a>
+          <a href="https://tiktok.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

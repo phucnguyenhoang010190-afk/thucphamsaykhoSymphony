@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin - DINH DƯỠNG SẤY KHÔ</title>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  :root{
+    --brand:#8bc34a;
+    --brand-dark:#689f38;
+    --bg:#f6f7f3;
+    --card:#ffffff;
+    --muted:#6b6b6b;
+    --danger:#e53e3e;
+    --glass: rgba(255,255,255,0.7);
+    --radius:12px;
+    --shadow: 0 8px 24px rgba(12,12,12,0.08);
+    --max-width:1200px;
+    --accent:#f6e05e;
+  }
+  *{box-sizing:border-box;font-family:Inter, 'Segoe UI', Roboto, Arial; -webkit-font-smoothing:antialiased}
+  body{margin:0;background:linear-gradient(180deg,var(--bg),#eef2e6);color:#222;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+
+  /* Layout */
+  .app {
+    display:grid;
+    grid-template-columns: 260px 1fr;
+    gap:20px;
+    max-width:1400px;
+    margin:18px auto;
+    padding:18px;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background:var(--card);
+    border-radius:16px;
+    padding:18px;
+    box-shadow:var(--shadow);
+    height:calc(100vh - 72px);
+    position:sticky; top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .brand {
+    display:flex;align-items:center;gap:10px;padding-bottom:6px;border-bottom:1px solid #f0f0f0;
+  }
+  .brand .logo { font-weight:800; color:var(--brand-dark); font-size:18px }
+  .menu { margin-top:12px; display:flex;flex-direction:column; gap:6px; }
+  .menu button {
+    display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:0;background:transparent;cursor:pointer;font-weight:600;color:#333;
+  }
+  .menu button.active { background:linear-gradient(90deg,var(--brand),var(--brand-dark)); color:white; box-shadow:0 6px 18px rgba(107,176,70,0.18); }
+  .menu .logout { margin-top:auto;color:var(--danger); font-weight:700; }
+
+  /* Top navbar */
+  .topbar {
+    grid-column: 1 / -1;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    background:transparent;
+    margin-bottom:8px;
+  }
+  .top-left { display:flex; align-items:center; gap:12px; }
+  .hamburger {
+    display:none;
+    width:44px;height:44px;border-radius:10px;background:var(--card);box-shadow:var(--shadow);border:0;cursor:pointer;
+  }
+  .search {
+    background:var(--card); padding:8px;border-radius:12px;display:flex;gap:8px;align-items:center;box-shadow:var(--shadow);
+  }
+  .search input { border:0; outline:0; width:260px; font-size:14px; background:transparent }
+  .top-right { display:flex;align-items:center;gap:12px; }
+
+  .avatar {
+    display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;background:var(--card);box-shadow:var(--shadow)
+  }
+  .icon { width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;color:white;font-weight:800 }
+
+  /* Content cards */
+  .content {
+    background:transparent;
+    padding:0 6px;
+  }
+  .card {
+    background:var(--card); border-radius:12px; padding:14px; box-shadow:var(--shadow); margin-bottom:14px;
+    transition:transform .18s ease,opacity .18s ease;
+  }
+  .grid-4 { display:grid; grid-template-columns: repeat(4,1fr); gap:12px; margin-bottom:12px; }
+  .stat { padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfff0); display:flex;flex-direction:column; gap:8px; }
+  .stat .num { font-size:20px; font-weight:800; color:var(--brand-dark) }
+  .stat .label { color:var(--muted); font-size:13px }
+
+  /* Main area layout */
+  .main-area { display:flex; gap:12px; flex-direction:column; }
+
+  /* Tables */
+  .table-wrap { overflow:auto; border-radius:10px; }
+  table { width:100%; border-collapse:collapse; min-width:800px; }
+  th, td { padding:10px 12px; text-align:left; border-bottom:1px solid #f0f0f0; font-size:14px; }
+  th { background:transparent; color:var(--muted); font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.6px }
+  img.thumb { width:60px;height:60px;object-fit:cover;border-radius:8px;border:1px solid #eee }
+
+  /* Controls */
+  .controls { display:flex; gap:8px; align-items:center; }
+  .btn { background:var(--brand); color:white; border:0; padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:700 }
+  .btn.secondary { background:#fff;color:#333;border:1px solid #eee }
+  .btn.warn { background:var(--danger); }
+
+  /* Modal */
+  .modal-backdrop {
+    position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.35); z-index:9999;
+  }
+  .modal {
+    width:920px; max-width:95%; background:var(--card); border-radius:12px; padding:18px; box-shadow:0 20px 60px rgba(10,10,10,0.25);
+    transform:translateY(12px); opacity:0; transition:all .18s ease;
+  }
+  .modal.show { transform:translateY(0); opacity:1; }
+  .modal .form-row { display:flex; gap:10px; margin-bottom:10px; }
+  .modal label { font-size:13px; color:var(--muted); }
+  .modal input, .modal textarea, .modal select {
+    width:100%; padding:8px 10px; border-radius:8px; border:1px solid #eee; outline:0; font-size:14px; background:#fff;
+  }
+  .modal .actions { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+
+  /* Toast */
+  .toast { position:fixed; right:20px; bottom:20px; background:#111;color:#fff;padding:12px 14px;border-radius:10px; box-shadow:var(--shadow); display:none; z-index:99999; }
+
+  /* Spinner */
+  .spinner { width:42px;height:42px;border-radius:50%;border:4px solid #eee;border-top-color:var(--brand-dark); animation:spin .9s linear infinite; display:inline-block; }
+  @keyframes spin { to { transform:rotate(360deg) } }
+
+  /* Responsive */
+  @media(max-width:1000px){
+    .app{grid-template-columns: 1fr; padding:12px;}
+    .sidebar{position:relative;height:auto;display:none}
+    .hamburger{display:inline-block}
+    .top-left .title { display:none }
+    .grid-4 { grid-template-columns: repeat(2,1fr); }
+    table { min-width:700px }
+  }
+  @media(max-width:600px){
+    .grid-4 { grid-template-columns: 1fr; }
+    .search input { width:120px }
+  }
+
+  /* small animations for tab switch */
+  .fade-enter { opacity:0; transform:translateY(8px) }
+  .fade-enter-active { transition: all .28s ease; opacity:1; transform:translateY(0) }
+</style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar" role="banner">
+    <div class="top-left">
+      <button class="hamburger" id="hambBtn" title="Menu">☰</button>
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" style="opacity:.6"><path fill="currentColor" d="M9.5 3a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"/><path fill="currentColor" d="M20 20l-4.5-4.5"/></svg>
+        <input id="globalSearch" placeholder="Tìm sản phẩm/đơn/HK..." />
+      </div>
+    </div>
+
+    <div class="top-right">
+      <div class="avatar">
+        <div class="icon">AD</div>
+        <div style="display:flex;flex-direction:column">
+          <div style="font-weight:700">Admin</div>
+          <div style="font-size:12px;color:var(--muted)">dinhduong@admin.com</div>
+        </div>
+      </div>
+      <button class="btn secondary" id="notifBtn">🔔</button>
+      <button class="btn secondary">⚙️</button>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div class="app" id="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">DS</div>
+        <div>
+          <div class="logo">DINH DƯỠNG SẤY KHÔ</div>
+          <div style="font-size:12px;color:var(--muted)">Admin Dashboard</div>
+        </div>
+      </div>
+
+      <nav class="menu" aria-label="Main menu">
+        <button class="nav-item active" data-tab="dashboard">Trang chủ</button>
+        <button class="nav-item" data-tab="products">Sản phẩm</button>
+        <button class="nav-item" data-tab="orders">Đơn hàng</button>
+        <button class="nav-item" data-tab="customers">Khách hàng</button>
+        <button class="nav-item" data-tab="analytics">Thống kê</button>
+        <button class="nav-item" data-tab="staff">Nhân viên</button>
+        <button class="nav-item logout" id="logoutBtn">Đăng xuất</button>
+      </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content" id="content">
+      <!-- Dashboard / Multiple tabs rendered in JS -->
+      <section id="tab-dashboard" class="main-area fade-enter-active" style="">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h3 style="margin:0">Tổng quan</h3>
+              <div style="color:var(--muted);font-size:13px">Bảng điều khiển quản lý cửa hàng</div>
+            </div>
+            <div class="controls">
+              <button class="btn" id="btnAddSampleProduct">Thêm mẫu sản phẩm</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="stat card">
+            <div class="label">Tổng doanh thu tháng</div>
+            <div class="num" id="stat-revenue">0 ₫</div>
+          </div>
+          <div class="stat card">
+            <div class="label">Số đơn mới</div>
+            <div class="num" id="stat-new-orders">0</div>
+          </div>
+          <div class="stat card">
+            <div class="label">Khách hàng mới</div>
+            <div class="num" id="stat-new-customers">0</div>
+          </div>
+          <div class="stat card">
+            <div class="label">Sản phẩm sắp hết</div>
+            <div class="num" id="stat-low-stock">0</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <canvas id="miniRevenueChart" height="90"></canvas>
+        </div>
+      </section>
+
+      <!-- PRODUCTS TAB -->
+      <section id="tab-products" class="main-area" style="display:none">
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h3 style="margin:0">Quản lý sản phẩm</h3>
+            <div style="color:var(--muted);font-size:13px">Quản lý danh sách sản phẩm, thêm/sửa/xóa</div>
+          </div>
+          <div class="controls">
+            <button class="btn" id="addProductBtn">Thêm sản phẩm</button>
+          </div>
+        </div>
+
+        <div class="card table-wrap">
+          <table id="productsTable" aria-live="polite">
+            <thead>
+              <tr>
+                <th>Ảnh</th><th>Tên</th><th>Giá</th><th>Loại</th><th>Tồn kho</th><th>Trạng thái</th><th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ORDERS TAB -->
+      <section id="tab-orders" class="main-area" style="display:none">
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+          <div><h3 style="margin:0">Quản lý đơn hàng</h3><div style="color:var(--muted);font-size:13px">Cập nhật trạng thái & xem chi tiết</div></div>
+        </div>
+
+        <div class="card table-wrap">
+          <table id="ordersTable">
+            <thead><tr><th>Mã</th><th>Khách hàng</th><th>Tổng tiền</th><th>Ngày</th><th>Trạng thái</th><th>Hành động</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CUSTOMERS TAB -->
+      <section id="tab-customers" class="main-area" style="display:none">
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+          <div><h3 style="margin:0">Khách hàng</h3><div style="color:var(--muted);font-size:13px">Danh sách & khóa tài khoản</div></div>
+        </div>
+
+        <div class="card table-wrap">
+          <table id="customersTable">
+            <thead><tr><th>Tên</th><th>Email</th><th>Điện thoại</th><th>Tổng đơn</th><th>Ngày tạo</th><th>Hành động</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ANALYTICS TAB -->
+      <section id="tab-analytics" class="main-area" style="display:none">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><h3 style="margin:0">Thống kê & Báo cáo</h3><div style="color:var(--muted);font-size:13px">Doanh thu & tỷ lệ hoàn tất</div></div>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex;gap:18px;flex-wrap:wrap">
+          <div style="flex:1;min-width:300px">
+            <h4 style="margin:0 0 8px 0">Doanh thu theo tháng</h4>
+            <canvas id="revenueChart" height="180"></canvas>
+          </div>
+          <div style="width:320px">
+            <h4 style="margin:0 0 8px 0">Tỷ lệ đơn hàng</h4>
+            <canvas id="orderPie" height="180"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- STAFF TAB -->
+      <section id="tab-staff" class="main-area" style="display:none">
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+          <div><h3 style="margin:0">Quản lý nhân viên</h3><div style="color:var(--muted);font-size:13px">Thêm/sửa/xóa nhân viên</div></div>
+          <div><button class="btn" id="addStaffBtn">Thêm nhân viên</button></div>
+        </div>
+
+        <div class="card table-wrap">
+          <table id="staffTable">
+            <thead><tr><th>Tên</th><th>Email</th><th>Quyền</th><th>Trạng thái</th><th>Hành động</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: Product Form / Order Detail / Confirm -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" id="modalBox">
+      <!-- dynamic content -->
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">Thông báo</div>
+
+<script>
+/* -----------------------
+   Mock data (in-memory, can save to localStorage)
+   ----------------------- */
+/* -----------------------
+   Mock data (in-memory, can save to localStorage)
+   ----------------------- */
+const MOCK = {
+  products: [
+    { id: 'p1', img:'https://images.blog.hatdieubactam.vn/hat-dieu-say-1626770884269-bao-quan-hat-dieu-say.jpg', name:'Hạt điều sấy', price:150000, type:'Hạt sấy', stock:40, status:'Active', desc:'Hạt điều sấy giòn, béo ngậy, giàu dinh dưỡng, cực kỳ bùi.' },
+    { id: 'p2', img:'https://dacsannguyenha.com/storage/photos/5/Traicaysay/thumbs/62903f8f47ad9.jpeg', name:'Táo sấy', price:90000, type:' Trái cây sấy', stock:25, status:'Active', desc:'Táo sấy giòn, vị chua nhẹ, thơm tự nhiên – món ăn vặt bổ dưỡng' },
+    { id: 'p3', img:'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_9_7_638297036945916999_cach-lam-khoai-lang-say-bang-noi-chien-khong-dau-thumb.jpg', name:'Khoai lang sấy', price:45000, type:'Rau củ sấy', stock:30, status:'Active', desc:'Khoai lang sấy vàng ươm, giòn nhẹ, vị ngọt tự nhiên không dầu.' },
+    { id: 'p4', img:'https://tramangcau.vn/wp-content/uploads/2025/03/Mang-cau-say-tam-muoi-ot-Dak-Lak-dam-bao-chat-luong-thom-ngon-nhat.jpg', name:'Mãng cầu sấy', price:130000, type:'Trái cây sấy', stock:18, status:'Active', desc:'Mãng cầu sấy vị chua nhẹ, ngọt hậu, ăn vui miệng và tốt cho tiêu hoá.' },
+    { id: 'p5', img:'https://langfarm-backend.s3.amazonaws.com/4.enjoy-soft-dried-mango-slices.jpg', name:'Xoài sấy dẻo', price:80000, type:'Trái cây sấy', stock:50, status:'Active', desc:'Xoài sấy dẻo mềm, ngọt thanh, giữ nguyên hương vị tự nhiên' },
+    { id: 'p6', img:'https://vuondaklak.com/wp-content/uploads/2023/12/mit-say-gion-ngon-11.jpg', name:'Mít sấy giòn', price:120000, type:'Trái cây sấy', stock:10, status:'Active', desc:'Mít sấy giòn được chế biến từ mít tươi 100%, sấy giòn bằng công nghệ hiện đại, giữ trọn hương vị tự nhiên.' },
+    { id: 'p7', img:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lve04k5yjwx0b4', name:'Chuối sấy giòn', price:35000, type:'Trái cây sấy', stock:22, status:'Active', desc:'Chuối sấy mỏng, giòn, vị ngọt thanh tự nhiên.' },
+    { id: 'p8', img:'https://bizweb.dktcdn.net/100/429/184/products/hat-dinh-duong-mix.jpg?v=1692168381767', name:'Mix hạt dinh dưỡng', price:120000, type:'Hạt mix', stock:12, status:'Active', desc:'Mix hạt dinh dưỡng gồm hạnh nhân, hạt điều, óc chó, nho khô – tốt cho tim mạch.' }
+  ],
+
+  customers: [
+    { id:'c1', name:'Nguyễn Văn An', email:'an.nguyen@example.com', phone:'0905123456', totalOrders:3, created:'2025-04-15', locked:false },
+    { id:'c2', name:'Trần Thị Bình', email:'binh.tran@example.com', phone:'0906789345', totalOrders:2, created:'2025-06-01', locked:false },
+    { id:'c3', name:'Lê Minh Huy', email:'huy.le@example.com', phone:'0912345678', totalOrders:1, created:'2025-07-20', locked:false },
+    { id:'c4', name:'Phạm Thảo Linh', email:'linh.pham@example.com', phone:'0933556677', totalOrders:4, created:'2025-08-05', locked:false },
+    { id:'c5', name:'Võ Quang Dũng', email:'dung.vo@example.com', phone:'0909998877', totalOrders:2, created:'2025-09-15', locked:false }
+  ],
+
+  orders: [
+    {
+      id:'O-20251001-001',
+      customer:'Nguyễn Văn An',
+      total:155000,
+      date:'2025-10-01',
+      status:'Hoàn tất',
+      items:[ {pid:'p2',name:'Hạt điều rang muối',qty:1,price:155000} ]
+    },
+    {
+      id:'O-20251003-002',
+      customer:'Trần Thị Bình',
+      total:78000,
+      date:'2025-10-03',
+      status:'Đang giao',
+      items:[ {pid:'p3',name:'Mít sấy vàng giòn',qty:1,price:78000} ]
+    },
+    {
+      id:'O-20251005-003',
+      customer:'Lê Minh Huy',
+      total:89000,
+      date:'2025-10-05',
+      status:'Chờ xác nhận',
+      items:[ {pid:'p1',name:'Táo sấy giòn tự nhiên',qty:1,price:89000} ]
+    },
+    {
+      id:'O-20251008-004',
+      customer:'Phạm Thảo Linh',
+      total:247000,
+      date:'2025-10-08',
+      status:'Hoàn tất',
+      items:[
+        {pid:'p4',name:'Khoai lang sấy mật',qty:2,price:65000},
+        {pid:'p5',name:'Chuối sấy giòn',qty:1,price:52000},
+        {pid:'p7',name:'Khoai môn sấy giòn',qty:1,price:69000}
+      ]
+    },
+    {
+      id:'O-20251010-005',
+      customer:'Võ Quang Dũng',
+      total:370000,
+      date:'2025-10-10',
+      status:'Đang giao',
+      items:[
+        {pid:'p6',name:'Mix hạt dinh dưỡng',qty:2,price:185000}
+      ]
+    }
+  ],
+
+  staff: [
+    { id:'s1', name:'Uyên', email:'uyentran@dinhduong.com', role:'Admin', status:'Active'},
+    { id:'s2', name:'Duy Khang', email:'khangduy@dinhduong.com', role:'Admin', status:'Active'},
+    { id:'s3', name:'Phú Khang', email:'phukhang@dinhduong.com', role:'Admin', status:'Active'},
+    { id:'s4', name:'Nguyễn Hải', email:'hai.nguyen@dinhduong.com', role:'Nhân viên bán hàng', status:'Active'},
+    { id:'s5', name:'Trần Hạnh', email:'hanh.tran@dinhduong.com', role:'Chăm sóc khách hàng', status:'Active'}
+  ],
+
+  revenueByMonth: [1000000,1200000,1600000,1800000,2100000,1950000,2200000,2350000,2500000,2750000,0,0]
+};
+
+/* Save/load to localStorage so changes persist on refresh */
+const STORAGE_KEY = 'dinhduong_admin_v1';
+function saveState(){
+  const state = { products:MOCK.products, orders:MOCK.orders, customers:MOCK.customers, staff:MOCK.staff, revenueByMonth:MOCK.revenueByMonth };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+function loadState(){
+  try {
+    const s = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(s){
+      MOCK.products = s.products || MOCK.products;
+      MOCK.orders = s.orders || MOCK.orders;
+      MOCK.customers = s.customers || MOCK.customers;
+      MOCK.staff = s.staff || MOCK.staff;
+      MOCK.revenueByMonth = s.revenueByMonth || MOCK.revenueByMonth;
+    }
+  } catch(e){ console.warn('load error', e) }
+}
+loadState();
+
+/* -----------------------
+   Helpers: DOM, toast, modal, loader
+   ----------------------- */
+const toastEl = document.getElementById('toast');
+function showToast(msg='Done', time=2000){
+  toastEl.textContent = msg;
+  toastEl.style.display = 'block';
+  setTimeout(()=> toastEl.style.display='none', time);
+}
+
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalBox = document.getElementById('modalBox');
+function showModal(html){
+  modalBox.innerHTML = html;
+  modalBackdrop.style.display = 'flex';
+  setTimeout(()=> modalBox.classList.add('show'), 10);
+  modalBackdrop.setAttribute('aria-hidden','false');
+}
+function hideModal(){
+  modalBox.classList.remove('show');
+  modalBackdrop.setAttribute('aria-hidden','true');
+  setTimeout(()=> modalBackdrop.style.display='none', 180);
+}
+
+/* -----------------------
+   Sidebar & Navigation
+   ----------------------- */
+const navItems = document.querySelectorAll('.nav-item');
+const sections = {
+  dashboard: document.getElementById('tab-dashboard'),
+  products: document.getElementById('tab-products'),
+  orders: document.getElementById('tab-orders'),
+  customers: document.getElementById('tab-customers'),
+  analytics: document.getElementById('tab-analytics'),
+  staff: document.getElementById('tab-staff')
+};
+navItems.forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    navItems.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    for(const key in sections){
+      sections[key].style.display = (key===tab ? '' : 'none');
+    }
+    // small animation
+    sections[tab].classList.add('fade-enter');
+    setTimeout(()=> sections[tab].classList.remove('fade-enter'), 300);
+
+    if(tab==='analytics') renderCharts();
+  });
+});
+
+/* Hamburger for mobile */
+document.getElementById('hambBtn').addEventListener('click', ()=>{
+  const sb = document.getElementById('sidebar');
+  sb.style.display = (sb.style.display === 'block' ? 'none' : 'block');
+});
+
+/* -----------------------
+   Products: render, add, edit, delete
+   ----------------------- */
+function renderProductsTable(){
+  const tbody = document.querySelector('#productsTable tbody');
+  tbody.innerHTML = '';
+  MOCK.products.forEach(p=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><img class="thumb" src="${p.img}" alt=""></td>
+      <td><strong>${escapeHtml(p.name)}</strong><div style="color:var(--muted);font-size:12px">${escapeHtml(p.desc||'')}</div></td>
+      <td>${formatVND(p.price)} ₫</td>
+      <td>${escapeHtml(p.type)}</td>
+      <td>${p.stock}</td>
+      <td>${p.status}</td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button class="btn secondary" data-act="edit" data-id="${p.id}">Sửa</button>
+          <button class="btn" data-act="duplicate" data-id="${p.id}">Nhân bản</button>
+          <button class="btn warn" data-act="delete" data-id="${p.id}">Xóa</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+/* Utility formatting */
+function formatVND(n){ return Number(n).toLocaleString('vi-VN'); }
+function escapeHtml(t){ return String(t).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); }
+
+/* Product modals */
+document.getElementById('addProductBtn').addEventListener('click', ()=> openProductForm());
+document.getElementById('btnAddSampleProduct').addEventListener('click', ()=>{
+  const newP = { id:'p' + Date.now(), img:'https://picsum.photos/seed/' + Date.now() + '/120/120', name:'Sản phẩm mới', price:50000, type:'Trái cây sấy', stock:10, status:'Active', desc:''};
+  MOCK.products.unshift(newP); saveState(); renderProductsTable(); showToast('Đã thêm sản phẩm mẫu');
+});
+
+/* Delegate product table buttons */
+document.querySelector('#productsTable tbody').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const act = btn.dataset.act, id = btn.dataset.id;
+  if(act==='edit') {
+    const p = MOCK.products.find(pp=>pp.id===id);
+    openProductForm(p);
+  } else if(act==='delete') {
+    confirmModal('Xác nhận xóa','Bạn có chắc muốn xóa sản phẩm này?', ()=>{
+      MOCK.products = MOCK.products.filter(pp=>pp.id!==id); saveState(); renderProductsTable(); showToast('Đã xóa sản phẩm');
+      hideModal();
+    });
+  } else if(act==='duplicate'){
+    const p = MOCK.products.find(pp=>pp.id===id);
+    const copy = Object.assign({}, p, { id:'p' + Date.now(), name: p.name + ' (copy)'});
+    MOCK.products.unshift(copy); saveState(); renderProductsTable(); showToast('Đã nhân bản sản phẩm');
+  }
+});
+
+/* Product form (add/edit) */
+function openProductForm(product){
+  const isEdit = !!product;
+  showModal(`
+    <h3>${isEdit ? 'Sửa sản phẩm' : 'Thêm sản phẩm'}</h3>
+    <div style="max-height:60vh;overflow:auto;padding-right:6px">
+      <div class="form-row">
+        <div style="flex:1">
+          <label>Tên</label>
+          <input id="p_name" value="${isEdit?escapeHtml(product.name):''}" />
+        </div>
+        <div style="width:180px">
+          <label>Giá (₫)</label>
+          <input id="p_price" type="number" value="${isEdit?product.price:''}" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div style="flex:1">
+          <label>Ảnh (URL)</label>
+          <input id="p_img" value="${isEdit?escapeHtml(product.img):''}" />
+        </div>
+        <div style="width:180px">
+          <label>Tồn kho</label>
+          <input id="p_stock" type="number" value="${isEdit?product.stock:0}" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div style="flex:1">
+          <label>Loại</label>
+          <input id="p_type" value="${isEdit?escapeHtml(product.type):''}" />
+        </div>
+        <div style="width:180px">
+          <label>Trạng thái</label>
+          <select id="p_status">
+            <option ${isEdit && product.status==='Active'?'selected':''}>Active</option>
+            <option ${isEdit && product.status==='Inactive'?'selected':''}>Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <label>Mô tả</label>
+        <textarea id="p_desc" rows="3">${isEdit?escapeHtml(product.desc||''):''}</textarea>
+      </div>
+    </div>
+    <div class="actions" style="margin-top:10px">
+      <button class="btn secondary" id="cancelModal">Hủy</button>
+      <button class="btn" id="saveProduct">${isEdit ? 'Lưu' : 'Thêm'}</button>
+    </div>
+  `);
+
+  document.getElementById('cancelModal').addEventListener('click', hideModal);
+  document.getElementById('saveProduct').addEventListener('click', ()=>{
+    const name = document.getElementById('p_name').value.trim();
+    const price = Number(document.getElementById('p_price').value) || 0;
+    const img = document.getElementById('p_img').value.trim() || 'https://picsum.photos/seed/'+Date.now()+'/120/120';
+    const stock = Number(document.getElementById('p_stock').value) || 0;
+    const type = document.getElementById('p_type').value.trim() || 'Khác';
+    const status = document.getElementById('p_status').value;
+    const desc = document.getElementById('p_desc').value.trim();
+
+    if(!name){ alert('Tên sản phẩm bắt buộc'); return; }
+
+    if(isEdit){
+      product.name = name; product.price = price; product.img = img; product.stock = stock; product.type = type; product.status = status; product.desc = desc;
+      showToast('Cập nhật thành công');
+    } else {
+      const newP = { id:'p'+Date.now(), name, price, img, stock, type, status, desc };
+      MOCK.products.unshift(newP);
+      showToast('Thêm sản phẩm thành công');
+    }
+    saveState(); renderProductsTable(); hideModal();
+  }, { once:true });
+}
+
+/* Confirm modal helper */
+function confirmModal(title, text, onConfirm){
+  showModal(`
+    <h3>${title}</h3>
+    <p style="color:var(--muted)">${text}</p>
+    <div class="actions">
+      <button class="btn secondary" id="cancelConfirm">Hủy</button>
+      <button class="btn warn" id="okConfirm">Xóa</button>
+    </div>
+  `);
+  document.getElementById('cancelConfirm').addEventListener('click', hideModal);
+  document.getElementById('okConfirm').addEventListener('click', ()=>{
+    onConfirm(); // do the deletion
+  }, { once:true });
+}
+
+/* -----------------------
+   Orders: render, status update, detail popup
+   ----------------------- */
+function renderOrders(){
+  const tbody = document.querySelector('#ordersTable tbody');
+  tbody.innerHTML = '';
+  MOCK.orders.forEach(o=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${o.id}</td>
+      <td>${escapeHtml(o.customer)}</td>
+      <td>${formatVND(o.total)} ₫</td>
+      <td>${escapeHtml(o.date)}</td>
+      <td>
+        <select data-id="${o.id}" class="order-status">
+          <option ${o.status==='Chờ xác nhận'?'selected':''}>Chờ xác nhận</option>
+          <option ${o.status==='Đang giao'?'selected':''}>Đang giao</option>
+          <option ${o.status==='Hoàn tất'?'selected':''}>Hoàn tất</option>
+        </select>
+      </td>
+      <td>
+        <div style="display:flex;gap:8px">
+          <button class="btn secondary" data-act="view" data-id="${o.id}">Xem</button>
+          <button class="btn" data-act="delete" data-id="${o.id}">Xóa</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // bind status changes
+  document.querySelectorAll('.order-status').forEach(sel=>{
+    sel.addEventListener('change', (e)=>{
+      const id = e.target.dataset.id;
+      const v = e.target.value;
+      const order = MOCK.orders.find(x=>x.id===id);
+      if(order){ order.status = v; saveState(); showToast('Cập nhật trạng thái'); renderAnalyticsStats(); }
+    });
+  });
+}
+
+/* Orders table buttons */
+document.querySelector('#ordersTable tbody').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const act = btn.dataset.act, id = btn.dataset.id;
+  if(act==='view'){
+    const o = MOCK.orders.find(x=>x.id===id);
+    showModal(renderOrderDetailHtml(o));
+  } else if(act==='delete'){
+    confirmModal('Xóa đơn hàng', 'Bạn có chắc muốn xóa đơn hàng ' + id + '?', ()=>{
+      MOCK.orders = MOCK.orders.filter(x=>x.id!==id); saveState(); renderOrders(); showToast('Đã xóa đơn hàng'); hideModal();
+      renderAnalyticsStats();
+    });
+  }
+});
+
+function renderOrderDetailHtml(order){
+  const itemsHtml = order.items.map(it=>`<tr><td>${escapeHtml(it.name)}</td><td>${it.qty}</td><td>${formatVND(it.price)} ₫</td></tr>`).join('');
+  return `
+    <h3>Chi tiết đơn ${order.id}</h3>
+    <div style="max-height:50vh;overflow:auto">
+      <table style="width:100%;">
+        <thead><tr><th>Sản phẩm</th><th>Số lượng</th><th>Giá</th></tr></thead>
+        <tbody>${itemsHtml}</tbody>
+      </table>
+      <div style="margin-top:12px;font-weight:800">Tổng: ${formatVND(order.total)} ₫</div>
+      <div style="color:var(--muted);font-size:13px">Ngày: ${escapeHtml(order.date)}</div>
+    </div>
+    <div class="actions" style="margin-top:10px">
+      <button class="btn secondary" id="closeOrder">Đóng</button>
+    </div>
+  `;
+}
+modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) hideModal(); });
+modalBox.addEventListener('click', (e)=> e.stopPropagation());
+
+document.addEventListener('click', (e)=>{
+  if(e.target && e.target.id==='closeOrder') hideModal();
+});
+
+/* -----------------------
+   Customers: render + lock
+   ----------------------- */
+function renderCustomers(){
+  const tbody = document.querySelector('#customersTable tbody');
+  tbody.innerHTML = '';
+  MOCK.customers.forEach(c=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${escapeHtml(c.name)}</td>
+      <td>${escapeHtml(c.email)}</td>
+      <td>${escapeHtml(c.phone)}</td>
+      <td>${c.totalOrders}</td>
+      <td>${escapeHtml(c.created)}</td>
+      <td>
+        <div style="display:flex;gap:8px">
+          <button class="btn secondary" data-act="view" data-id="${c.id}">Xem</button>
+          <button class="btn warn" data-act="lock" data-id="${c.id}">${c.locked ? 'Mở khóa' : 'Khóa'}</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+document.querySelector('#customersTable tbody').addEventListener('click',(e)=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  const act = btn.dataset.act, id = btn.dataset.id;
+  const c = MOCK.customers.find(x=>x.id===id);
+  if(act==='view') {
+    showModal(`<h3>Khách hàng</h3><p><b>${escapeHtml(c.name)}</b><br/>${escapeHtml(c.email)}<br/>${escapeHtml(c.phone)}</p><div class="actions"><button class="btn secondary" id="closeC">Đóng</button></div>`);
+    document.getElementById('closeC').addEventListener('click', hideModal);
+  } else if(act==='lock'){
+    c.locked = !c.locked; saveState(); renderCustomers(); showToast(c.locked ? 'Đã khóa tài khoản' : 'Đã mở khóa');
+  }
+});
+
+/* -----------------------
+   Staff management
+   ----------------------- */
+function renderStaff(){
+  const tbody = document.querySelector('#staffTable tbody');
+  tbody.innerHTML = '';
+  MOCK.staff.forEach(s=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${escapeHtml(s.name)}</td>
+      <td>${escapeHtml(s.email)}</td>
+      <td>${escapeHtml(s.role)}</td>
+      <td>${escapeHtml(s.status)}</td>
+      <td>
+        <div style="display:flex;gap:8px">
+          <button class="btn secondary" data-act="edit" data-id="${s.id}">Sửa</button>
+          <button class="btn warn" data-act="delete" data-id="${s.id}">Xóa</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+document.getElementById('addStaffBtn').addEventListener('click', ()=> openStaffForm());
+document.querySelector('#staffTable tbody').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  const act = btn.dataset.act, id = btn.dataset.id;
+  const s = MOCK.staff.find(x=>x.id===id);
+  if(act==='edit') openStaffForm(s);
+  if(act==='delete') confirmModal('Xóa nhân viên','Xác nhận xóa nhân viên?', ()=>{ MOCK.staff = MOCK.staff.filter(x=>x.id!==id); saveState(); renderStaff(); showToast('Đã xóa nhân viên'); hideModal(); });
+});
+
+function openStaffForm(staff){
+  const isEdit = !!staff;
+  showModal(`
+    <h3>${isEdit ? 'Sửa nhân viên' : 'Thêm nhân viên'}</h3>
+    <div>
+      <div class="form-row">
+        <div style="flex:1"><label>Tên</label><input id="s_name" value="${isEdit?escapeHtml(staff.name):''}" /></div>
+        <div style="width:260px"><label>Email</label><input id="s_email" value="${isEdit?escapeHtml(staff.email):''}" /></div>
+      </div>
+      <div class="form-row">
+        <div style="flex:1"><label>Quyền</label><input id="s_role" value="${isEdit?escapeHtml(staff.role):'Staff'}" /></div>
+        <div style="width:160px"><label>Trạng thái</label>
+          <select id="s_status"><option ${isEdit&&staff.status==='Active'?'selected':''}>Active</option><option ${isEdit&&staff.status==='Inactive'?'selected':''}>Inactive</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn secondary" id="cancelStaff">Hủy</button>
+      <button class="btn" id="saveStaff">${isEdit?'Lưu':'Thêm'}</button>
+    </div>
+  `);
+
+  document.getElementById('cancelStaff').addEventListener('click', hideModal);
+  document.getElementById('saveStaff').addEventListener('click', ()=>{
+    const name = document.getElementById('s_name').value.trim();
+    const email = document.getElementById('s_email').value.trim();
+    const role = document.getElementById('s_role').value.trim();
+    const status = document.getElementById('s_status').value;
+    if(!name||!email){ alert('Vui lòng nhập tên & email'); return; }
+    if(staff){
+      staff.name=name; staff.email=email; staff.role=role; staff.status=status;
+      showToast('Cập nhật nhân viên');
+    } else {
+      MOCK.staff.push({ id:'s'+Date.now(), name, email, role, status });
+      showToast('Thêm nhân viên');
+    }
+    saveState(); renderStaff(); hideModal();
+  }, { once:true });
+}
+
+/* -----------------------
+   Analytics charts (Chart.js)
+   ----------------------- */
+let revenueChart=null, orderPie=null, miniChart=null;
+function renderCharts(){
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  const labels = ['Th1','Th2','Th3','Th4','Th5','Th6','Th7','Th8','Th9','Th10','Th11','Th12'];
+  const data = MOCK.revenueByMonth;
+  if(revenueChart) revenueChart.destroy();
+  revenueChart = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets: [{ label:'Doanh thu', data, tension:0.3, fill:true, backgroundColor:'rgba(139,195,74,0.15)', borderColor:'rgba(104,159,56,0.9)', pointRadius:4 }] },
+    options: { responsive:true, plugins:{legend:{display:false}} }
+  });
+
+  const pieCtx = document.getElementById('orderPie').getContext('2d');
+  const stats = { waiting: MOCK.orders.filter(o=>o.status==='Chờ xác nhận').length, shipping: MOCK.orders.filter(o=>o.status==='Đang giao').length, done: MOCK.orders.filter(o=>o.status==='Hoàn tất').length };
+  if(orderPie) orderPie.destroy();
+  orderPie = new Chart(pieCtx, {
+    type:'pie',
+    data:{ labels:['Chờ xác nhận','Đang giao','Hoàn tất'], datasets:[{ data:[stats.waiting,stats.shipping,stats.done], backgroundColor:['#f6e05e','#63b3ed','#68a434'] }]},
+    options:{ responsive:true, plugins:{legend:{position:'bottom'}} }
+  });
+}
+
+/* small mini chart on dashboard */
+function renderMiniChart(){
+  const ctx = document.getElementById('miniRevenueChart').getContext('2d');
+  if(miniChart) miniChart.destroy();
+  miniChart = new Chart(ctx, {
+    type:'line',
+    data:{ labels:['W1','W2','W3','W4'], datasets:[{ data:[300000, 450000, 250000, 500000], tension:0.3, borderColor:'rgba(104,159,56,0.9)', fill:true, backgroundColor:'rgba(139,195,74,0.12)', pointRadius:3 }]},
+    options:{ plugins:{legend:{display:false}}, responsive:true }
+  });
+}
+
+/* -----------------------
+   Analytics stats + update main stats
+   ----------------------- */
+function renderAnalyticsStats(){
+  // total revenue this month (sum of orders in current month for demo)
+  const revenueThisMonth = MOCK.orders.reduce((s,o)=> s + (o.total||0), 0);
+  const newOrders = MOCK.orders.filter(o=> o.status==='Chờ xác nhận').length;
+  const newCustomers = MOCK.customers.length;
+  const lowStock = MOCK.products.filter(p=> p.stock <= 5).length;
+
+  document.getElementById('stat-revenue').textContent = formatVND(revenueThisMonth) + ' ₫';
+  document.getElementById('stat-new-orders').textContent = newOrders;
+  document.getElementById('stat-new-customers').textContent = newCustomers;
+  document.getElementById('stat-low-stock').textContent = lowStock;
+}
+
+/* -----------------------
+   Init render
+   ----------------------- */
+function init(){
+  renderProductsTable();
+  renderOrders();
+  renderCustomers();
+  renderStaff();
+  renderCharts();
+  renderMiniChart();
+  renderAnalyticsStats();
+}
+init();
+
+/* -----------------------
+   Simple global search (product/order/customer)
+   ----------------------- */
+document.getElementById('globalSearch').addEventListener('keyup', (e)=>{
+  if(e.key !== 'Enter') return;
+  const q = e.target.value.trim().toLowerCase();
+  if(!q) return;
+  // try to find entity and open its tab
+  const prod = MOCK.products.find(p=> p.name.toLowerCase().includes(q));
+  if(prod){ document.querySelector('[data-tab="products"]').click(); highlightRow('#productsTable', prod.id); return; }
+  const ord = MOCK.orders.find(o=> o.id.toLowerCase().includes(q) || o.customer.toLowerCase().includes(q));
+  if(ord){ document.querySelector('[data-tab="orders"]').click(); setTimeout(()=> showModal(renderOrderDetailHtml(ord)), 250); return; }
+  const cust = MOCK.customers.find(c=> c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q));
+  if(cust){ document.querySelector('[data-tab="customers"]').click(); showToast('Tìm thấy khách hàng: '+cust.name); return; }
+  showToast('Không tìm thấy: '+q,2000);
+});
+function highlightRow(tableSelector, id){
+  // naive highlight: scroll to top
+  const table = document.querySelector(tableSelector);
+  table.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* -----------------------
+   Misc: logout
+   ----------------------- */
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+  confirmModal('Đăng xuất','Bạn có muốn đăng xuất khỏi dashboard?', ()=>{ hideModal(); showToast('Đã đăng xuất'); });
+});
+
+/* -----------------------
+   Window unload save
+   ----------------------- */
+window.addEventListener('beforeunload', ()=> saveState());
+
+/* -----------------------
+   Initial bindings: close modals with ESC
+   ----------------------- */
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideModal(); });
+
+/* -----------------------
+   Initial render calls for dynamic content
+   ----------------------- */
+renderProductsTable();
+renderOrders();
+renderCustomers();
+renderStaff();
+renderCharts();
+renderMiniChart();
+renderAnalyticsStats();
+
+</script>
+</body>
+</html>

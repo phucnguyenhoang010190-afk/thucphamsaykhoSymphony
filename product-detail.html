@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chi tiết sản phẩm | Dinh Dưỡng Sấy Khô</title>
+  <style>
+    :root {
+      --primary: #8bc34a;
+      --primary-dark: #689f38;
+      --accent: #e91e63;
+      --bg: #f9f9f9;
+      --card-bg: #fff;
+      --muted: #777;
+      --max-width: 1200px;
+      --radius: 12px;
+      --shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { margin: 0; background: var(--bg); color: #222; line-height: 1.5; }
+    a { color: inherit; text-decoration: none; }
+
+    /* HEADER */
+    header.main-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 20px;
+    }
+    .header-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .logo { font-weight: 700; font-size: 20px; }
+    .main-menu { display: flex; gap: 14px; }
+    .main-menu a { color: #fff; font-weight: 600; }
+    .main-menu a.active { border-bottom: 2px solid #fff; }
+    .account a { color: #fff; font-weight: 600; }
+
+    /* PRODUCT DETAIL */
+    .container { max-width: var(--max-width); margin: 40px auto; padding: 0 16px; }
+    .product-detail {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .product-image {
+      flex: 1 1 45%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .product-image img {
+      width: 100%;
+      max-width: 480px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+    .product-image img:hover { transform: scale(1.04); }
+
+    .product-info {
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-info h1 { font-size: 26px; margin-bottom: 10px; }
+    .price {
+      font-size: 22px;
+      color: var(--accent);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .old-price {
+      text-decoration: line-through;
+      font-size: 14px;
+      color: var(--muted);
+      margin-left: 8px;
+    }
+    .description { margin: 20px 0; color: #333; }
+    .product-meta { color: var(--muted); margin-bottom: 20px; }
+    .actions { display: flex; gap: 12px; }
+    .btn {
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn.add {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+    .btn.add:hover { background: var(--primary-dark); }
+    .btn.back {
+      background: #fff;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .btn.back:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* REVIEWS */
+    .reviews {
+      margin-top: 50px;
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .stars { color: gold; font-size: 20px; }
+    .review-item { border-top: 1px dashed #eee; padding: 12px 0; }
+    .review-item:first-child { border-top: none; }
+    .review-name { font-weight: 700; }
+
+    /* RELATED PRODUCTS */
+    .related {
+      margin-top: 50px;
+    }
+    .related h2 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+    .product-card:hover { transform: translateY(-5px); }
+    .img-wrap img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      border-bottom: 1px solid #eee;
+    }
+    .product-body { padding: 14px; }
+    .product-body h3 { font-size: 16px; margin: 0 0 8px; }
+    .product-body .price { font-size: 15px; color: var(--accent); font-weight: 700; }
+    .product-body .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+
+    /* MINI CART */
+    #cart {
+      position: fixed;
+      right: 18px;
+      top: 90px;
+      background: #fff;
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      width: 280px;
+      z-index: 999;
+    }
+    #cart h3 { margin: 0 0 8px; color: var(--primary-dark); }
+    #cart ul { list-style: none; padding: 0; margin: 0; max-height: 200px; overflow: auto; }
+    #cart li { padding: 6px 0; border-bottom: 1px dashed #eee; }
+    #cart .total { font-weight: 800; margin-top: 8px; }
+    #checkout-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background: var(--primary-dark);
+      color: #fff;
+      border: 0;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #4c4a24;
+      color: #fff;
+      padding: 36px 0;
+      margin-top: 60px;
+    }
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 0 16px;
+    }
+    .footer-col { flex: 1; min-width: 200px; }
+
+    @media(max-width:768px){
+      .product-detail { flex-direction: column; }
+      .product-image, .product-info { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo">🌿 <strong>Dinh Dưỡng Sấy Khô</strong></div>
+      <nav class="main-menu">
+        <a href="index.html">Trang chủ</a>
+        <a href="shop.html" class="active">Sản phẩm</a>
+        <a href="promotion.html">Khuyến mãi</a>
+        <a href="introduce.html">Giới thiệu</a>
+        <a href="contact.html">Liên hệ</a>
+      </nav>
+      <div class="account"><a href="login.html">👤 Tài khoản</a></div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container">
+    <section class="product-detail">
+      <div class="product-image">
+        <img src="https://vuondaklak.com/wp-content/uploads/2023/12/mit-say-gion-ngon-11.jpg" alt="Mít sấy giòn">
+      </div>
+      <div class="product-info">
+        <div>
+          <h1>Mít sấy giòn</h1>
+          <div class="price">120.000đ <span class="old-price">160.000đ</span></div>
+          <div class="product-meta">Phân loại: Trái cây sấy | Khối lượng: 200g | Xuất xứ: Việt Nam</div>
+          <p class="description">
+            Mít sấy giòn được chế biến từ mít tươi 100%, sấy giòn bằng công nghệ hiện đại, giữ trọn hương vị tự nhiên.
+            Vị ngọt thanh, giòn tan, thơm nức mũi – món ăn vặt lý tưởng và giàu dinh dưỡng.
+          </p>
+        </div>
+        <div class="actions">
+          <button class="btn add" onclick="addToCartById('mit')">🛒 Thêm vào giỏ hàng</button>
+          <button class="btn back" onclick="location.href='shop.html'">← Quay lại cửa hàng</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="reviews">
+      <h2>Đánh giá sản phẩm</h2>
+      <div class="stars">⭐⭐⭐⭐⭐ <span style="color:var(--muted);font-size:14px;">(45 đánh giá)</span></div>
+      <div class="review-item">
+        <div class="review-name">Nguyễn Lan</div>
+        <div>Giòn, thơm và ngọt vừa phải. Mua lần 2 rồi!</div>
+      </div>
+      <div class="review-item">
+        <div class="review-name">Hoàng Nam</div>
+        <div>Đóng gói chắc chắn, giao nhanh. Sẽ ủng hộ tiếp.</div>
+      </div>
+      <div class="review-item">
+        <div class="review-name">Thảo Vy</div>
+        <div>Ăn rất ngon, cảm giác như mít tươi, giòn rụm!</div>
+      </div>
+    </section>
+
+    <!-- RELATED -->
+    <section class="related">
+      <h2>Sản phẩm liên quan</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="img-wrap"><img src="https://langfarm-backend.s3.amazonaws.com/4.enjoy-soft-dried-mango-slices.jpg" alt="Xoài sấy dẻo"></div>
+          <div class="product-body">
+            <h3>Xoài sấy dẻo</h3>
+            <div class="price">80.000đ</div>
+            <button class="btn add" onclick="addToCartById('xoai')">Thêm vào giỏ</button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="img-wrap"><img src="https://tramangcau.vn/wp-content/uploads/2025/03/Mang-cau-say-tam-muoi-ot-Dak-Lak-dam-bao-chat-luong-thom-ngon-nhat.jpg" alt="Mãng cầu sấy"></div>
+          <div class="product-body">
+            <h3>Mãng cầu sấy</h3>
+            <div class="price">130.000đ</div>
+            <button class="btn add" onclick="addToCartById('mangcau')">Thêm vào giỏ</button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="img-wrap"><img src="https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_9_7_638297036945916999_cach-lam-khoai-lang-say-bang-noi-chien-khong-dau-thumb.jpg" alt="Khoai lang sấy"></div>
+          <div class="product-body">
+            <h3>Khoai lang sấy</h3>
+            <div class="price">45.000đ</div>
+            <button class="btn add" onclick="addToCartById('khoailang')">Thêm vào giỏ</button>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="img-wrap"><img src="https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lve04k5yjwx0b4" alt="Chuối sấy giòn"></div>
+          <div class="product-body">
+            <h3>Chuối sấy giòn</h3>
+            <div class="price">35.000đ</div>
+            <button class="btn add" onclick="addToCartById('chuoi')">Thêm vào giỏ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MINI CART -->
+  <div id="cart" aria-live="polite">
+    <h3>🛒 Giỏ hàng</h3>
+    <ul id="cart-items"></ul>
+    <div class="total">Tổng: <span id="cart-total">0</span> đ</div>
+    <button id="checkout-btn" onclick="location.href='shopping-cart.html'">Thanh toán</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>🌿 DINH DƯỠNG SẤY KHÔ</h4>
+        <p>Chuyên cung cấp thực phẩm sấy khô tự nhiên – an toàn – tốt cho sức khỏe.</p>
+        <p><strong>Địa chỉ:</strong> 123 Nguyễn Văn Linh, TP. HCM</p>
+        <p><strong>Email:</strong> lienhe@dinhduongsaykho.com</p>
+      </div>
+      <div class="footer-col">
+        <h4>HỖ TRỢ</h4>
+        <ul>
+          <li>Chính sách giao hàng</li>
+          <li>Chính sách đổi trả</li>
+          <li>Hướng dẫn mua hàng</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>THEO DÕI</h4>
+        <p>Facebook | YouTube | TikTok</p>
+      </div>
+    </div>
+  </footer>
+<script>
+const CART_KEY = 'dinhduongsaykho_cart_v1';
+
+// Dữ liệu sản phẩm + đánh giá riêng
+const products = {
+  mit:{
+    id:'mit',
+    name:'Mít sấy giòn',
+    price:120000,
+    oldPrice:160000,
+    img:'https://vuondaklak.com/wp-content/uploads/2023/12/mit-say-gion-ngon-11.jpg',
+    desc:'Mít sấy giòn được chế biến từ mít tươi 100%, sấy giòn bằng công nghệ hiện đại, giữ trọn hương vị tự nhiên.',
+    reviews:[
+      {name:'Lan Anh', text:'Mít rất giòn và thơm, ngọt vừa phải!'},
+      {name:'Hữu Tài', text:'Đóng gói đẹp, ăn rất ngon, sẽ mua lại.'},
+      {name:'Kim Ngân', text:'Giòn rụm, không bị dầu, đáng tiền lắm!'}
+    ]
+  },
+  xoai:{
+    id:'xoai',
+    name:'Xoài sấy dẻo',
+    price:80000,
+    img:'https://langfarm-backend.s3.amazonaws.com/4.enjoy-soft-dried-mango-slices.jpg',
+    desc:'Xoài sấy dẻo mềm, ngọt thanh, giữ nguyên hương vị tự nhiên.',
+    reviews:[
+      {name:'Ngọc Hân', text:'Xoài dẻo mềm, vị rất tự nhiên.'},
+      {name:'Minh Hoàng', text:'Không quá ngọt, rất hợp để ăn vặt.'}
+    ]
+  },
+  mangcau:{
+    id:'mangcau',
+    name:'Mãng cầu sấy',
+    price:130000,
+    img:'https://tramangcau.vn/wp-content/uploads/2025/03/Mang-cau-say-tam-muoi-ot-Dak-Lak-dam-bao-chat-luong-thom-ngon-nhat.jpg',
+    desc:'Mãng cầu sấy vị chua nhẹ, ngọt hậu, ăn vui miệng và tốt cho tiêu hoá.',
+    reviews:[
+      {name:'Thuỳ Dung', text:'Vị chua nhẹ dễ ăn, thơm tự nhiên.'},
+      {name:'Văn Bình', text:'Đóng gói sạch, ăn cảm giác tươi.'}
+    ]
+  },
+  khoailang:{
+    id:'khoailang',
+    name:'Khoai lang sấy',
+    price:45000,
+    img:'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_9_7_638297036945916999_cach-lam-khoai-lang-say-bang-noi-chien-khong-dau-thumb.jpg',
+    desc:'Khoai lang sấy vàng ươm, giòn nhẹ, vị ngọt tự nhiên không dầu.',
+    reviews:[
+      {name:'Cẩm Tú', text:'Khoai giòn, thơm lắm! Không bị cứng.'},
+      {name:'Tuấn Anh', text:'Đóng gói kỹ, ăn vui miệng. Sẽ mua thêm.'}
+    ]
+  },
+  chuoi:{
+    id:'chuoi',
+    name:'Chuối sấy giòn',
+    price:35000,
+    img:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lve04k5yjwx0b4',
+    desc:'Chuối sấy giòn tự nhiên, giữ vị ngọt thanh, thơm và không dầu.',
+    reviews:[
+      {name:'Hà My', text:'Chuối giòn, thơm mùi tự nhiên, con mình rất thích.'},
+      {name:'Hoàng Phúc', text:'Rất đáng tiền, ăn giòn rụm mà không ngấy.'}
+    ]
+  },
+    tau:{
+    id:'tau',
+    name:'Táo sấy',
+    price:90000,
+    img:'https://dacsannguyenha.com/storage/photos/5/Traicaysay/thumbs/62903f8f47ad9.jpeg',
+    desc:'Táo sấy giòn, vị chua nhẹ, thơm tự nhiên – món ăn vặt bổ dưỡng.',
+    reviews:[
+      {name:'Thanh Hằng', text:'Táo giòn, vị chua chua ngọt ngọt, rất ngon.'},
+      {name:'Hải Đăng', text:'Thơm tự nhiên, không quá ngọt, rất đáng tiền!'}
+    ]
+  },
+  hatdie:{
+    id:'hatdie',
+    name:'Hạt điều sấy',
+    price:150000,
+    img:'https://images.blog.hatdieubactam.vn/hat-dieu-say-1626770884269-bao-quan-hat-dieu-say.jpg',
+    desc:'Hạt điều sấy giòn, béo ngậy, giàu dinh dưỡng, cực kỳ bùi.',
+    reviews:[
+      {name:'Phương Linh', text:'Hạt điều thơm, giòn, không bị khét.'},
+      {name:'Tấn Tài', text:'Rất ngon, hạt to và giòn rụm!'}
+    ]
+  },
+  hathat:{
+    id:'hathat',
+    name:'Hạt hỗn hợp mix',
+    price:120000,
+    img:'https://bizweb.dktcdn.net/100/429/184/products/hat-dinh-duong-mix.jpg?v=1692168381767',
+    desc:'Mix hạt dinh dưỡng gồm hạnh nhân, hạt điều, óc chó, nho khô – tốt cho tim mạch.',
+    reviews:[
+      {name:'Quỳnh Chi', text:'Ăn mix hạt rất tiện, vị ngon và đa dạng.'},
+      {name:'Bảo Long', text:'Tươi, ngon, đóng gói cẩn thận. Rất đáng mua!'}
+    ]
+  }
+};
+
+// -------------------- Giỏ hàng --------------------
+function getCart(){ return JSON.parse(localStorage.getItem(CART_KEY) || '{}'); }
+function saveCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); renderCart(); }
+
+function addToCartById(id){
+  const p = products[id];
+  if (!p) return;
+  const cart = getCart();
+  if (!cart[id]) cart[id] = {...p, qty:1};
+  else cart[id].qty++;
+  saveCart(cart);
+  alert('Đã thêm vào giỏ hàng!');
+}
+
+function renderCart(){
+  const cart = getCart();
+  const ul = document.getElementById('cart-items');
+  const totalEl = document.getElementById('cart-total');
+  ul.innerHTML = '';
+  let total = 0;
+  for(const id in cart){
+    const item = cart[id];
+    total += item.price * item.qty;
+    ul.innerHTML += `<li>${item.name} x${item.qty} - ${(item.price*item.qty).toLocaleString()}đ</li>`;
+  }
+  totalEl.textContent = total.toLocaleString();
+}
+
+// -------------------- Hiển thị sản phẩm --------------------
+function getParam(name){
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+function renderProductDetail(){
+  const id = getParam('id');
+  const p = products[id] || products['mit'];
+
+  // Cập nhật thông tin sản phẩm
+  document.querySelector('.product-image img').src = p.img;
+  document.querySelector('.product-info h1').textContent = p.name;
+  document.querySelector('.price').innerHTML = `${p.price.toLocaleString()}đ ${p.oldPrice ? `<span class="old-price">${p.oldPrice.toLocaleString()}đ</span>` : ''}`;
+  document.querySelector('.description').textContent = p.desc;
+  document.querySelector('.btn.add').setAttribute('onclick', `addToCartById('${p.id}')`);
+
+  // Hiển thị đánh giá riêng
+  const reviewSection = document.querySelector('.reviews');
+  let reviewHTML = `
+    <h2>Đánh giá sản phẩm</h2>
+    <div class="stars">⭐⭐⭐⭐⭐ <span style="color:var(--muted);font-size:14px;">(${p.reviews.length} đánh giá)</span></div>
+  `;
+  p.reviews.forEach(r=>{
+    reviewHTML += `
+      <div class="review-item">
+        <div class="review-name">${r.name}</div>
+        <div>${r.text}</div>
+      </div>
+    `;
+  });
+  reviewSection.innerHTML = reviewHTML;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderProductDetail();
+  renderCart();
+});
+</script>
+
+
+
+</body>
+</html>

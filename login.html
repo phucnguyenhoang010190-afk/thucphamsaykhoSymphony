@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập / Đăng ký - Dinh Dưỡng Sấy Khô</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* NỀN TRANG */
+body {
+  min-height: 100vh;
+  background: url('anhnen.jpg') no-repeat center center fixed;
+  background-size: cover;       /* Ảnh nền tự động co giãn */
+  background-attachment: fixed; /* Ảnh nền cố định khi cuộn */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* HEADER */
+.main-header {
+  background-color: #8bc34a;
+  color: white;
+  padding: 10px 20px;
+}
+.header-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.logo { font-size: 20px; font-weight: bold; white-space: nowrap; }
+.main-menu { display: flex; gap: 18px; align-items: center; }
+.main-menu a { color: white; text-decoration: none; font-weight: 500; font-size: 15px; }
+.search-bar { display: flex; align-items: center; background: white; border-radius: 6px; overflow: hidden; border: 1px solid #ccc; width: 300px; }
+.search-bar input { border: none; outline: none; padding: 8px 10px; width: 100%; font-size: 14px; }
+.search-bar button { background: #ffeb3b; border: none; padding: 8px 12px; cursor: pointer; }
+.account-link { color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+
+/* WRAPPER */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 78vh;
+  padding: 30px 0;
+}
+
+/* CARD */
+.card {
+  width: 900px;
+  display: flex;
+  align-items: stretch;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  background: transparent;
+}
+
+/* CỘT TRÁI (ĐĂNG NHẬP) */
+.left {
+  width: 50%;
+  background: #fff;
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.left h2 {
+  color: #3fa537;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.left p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+/* INPUT */
+.field {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 1px solid #d6d6d6;
+  margin-bottom: 14px;
+  font-size: 14px;
+  outline: none;
+}
+.field:focus {
+  border-color: #8bc34a;
+  box-shadow: 0 0 0 2px rgba(139,195,74,0.2);
+}
+
+/* NÚT */
+.btn {
+  background: #ff9e00;
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: 0.2s;
+}
+.btn:hover { background: #fb8c00; }
+
+/* LINK DƯỚI FORM */
+.links-row {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+}
+.links-row a {
+  color: #4caf50;
+  text-decoration: none;
+  margin: 0 6px;
+}
+.links-row a:hover { text-decoration: underline; }
+
+/* THÔNG BÁO LỖI */
+.message {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.message.success { background: #e8f7ec; color: #166a2b; border: 1px solid #c6f0cf; }
+.message.error { background: #ffecec; color: #8a1a1a; border: 1px solid #f1c2c2; }
+.hidden { display: none; }
+
+/* CỘT PHẢI (MỜ NỀN) */
+.right {
+  width: 50%;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #2f5f2a;
+  background: rgba(166, 207, 85, 0.35);
+  backdrop-filter: blur(10px) brightness(1.05);
+  -webkit-backdrop-filter: blur(14px) brightness(1.05);
+  border-left: 1px solid rgba(255,255,255,0.25);
+}
+.right h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #397f23;
+}
+.right p { color: #355f2f; line-height: 1.6; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .card { flex-direction: column; width: 90%; }
+  .left, .right { width: 100%; }
+  .right {
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    border-radius: 0 0 10px 10px;
+    padding: 24px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (same as index) -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo">🌿 <strong>Dinh Dưỡng Sấy Khô</strong></div>
+      <nav class="main-menu">
+        <a href="index.html">Trang chủ</a>
+        <a href="#">Sản phẩm</a>
+        <a href="#">Khuyến mãi</a>
+        <a href="#gioithieu">Giới thiệu</a>
+        <a href="contact.html">Liên hệ</a>
+      </nav>
+      <form class="search-bar" onsubmit="return false;">
+        <input type="text" placeholder="Tìm kiếm sản phẩm..." />
+        <button type="submit">🔍</button>
+      </form>
+      <a href="login.html" class="account-link">
+        <span style="font-size:18px">👤</span>
+        <div style="text-align:left; line-height:1;">
+          <div style="font-size:12px; opacity:0.9;">Đăng nhập / Đăng ký</div>
+          <div style="font-size:13px; font-weight:700; text-transform:uppercase;">Tài khoản</div>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div class="wrapper">
+    <div class="card">
+      <!-- LEFT column with forms -->
+      <div class="left">
+        <!-- LOGIN view -->
+        <div id="view-login">
+          <h2>Chào mừng bạn quay lại! 🌿</h2>
+          <p>Đăng nhập để tiếp tục mua sắm sản phẩm sấy khô tự nhiên & ngon lành.</p>
+
+          <form id="loginForm">
+            <input id="loginEmail" class="field" type="email" placeholder="Email của bạn" required />
+            <input id="loginPassword" class="field" type="password" placeholder="Mật khẩu" required />
+            <button class="btn" type="submit">Đăng nhập</button>
+          </form>
+
+          <div id="loginError" class="message error hidden" style="margin-top:12px; display:none;">⚠️ Email hoặc mật khẩu không chính xác.</div>
+
+
+          <div class="links-row">
+            <a href="#" onclick="showView('forgot'); return false;">Quên mật khẩu?</a> |
+            <a href="#" onclick="showView('register'); return false;">Đăng ký tài khoản mới</a>
+          </div>
+        </div>
+
+        <!-- REGISTER view -->
+        <div id="view-register" class="hidden">
+          <h2>Tạo tài khoản mới 🌿</h2>
+          <p>Điền thông tin để bắt đầu hành trình dinh dưỡng cùng chúng tôi.</p>
+
+          <form id="registerForm">
+            <input id="regName" class="field" type="text" placeholder="Họ và tên" required />
+            <input id="regEmail" class="field" type="email" placeholder="Email" required />
+            <input id="regPhone" class="field" type="text" placeholder="Số điện thoại" />
+            <input id="regPass" class="field" type="password" placeholder="Mật khẩu" required />
+            <input id="regPass2" class="field" type="password" placeholder="Xác nhận mật khẩu" required />
+            <button class="btn" type="submit">Đăng ký</button>
+          </form>
+
+          <div id="registerMsg" class="message success hidden"></div>
+
+          <div class="links-row">
+            <a href="#" onclick="showView('login'); return false;">⬅ Quay lại đăng nhập</a>
+          </div>
+        </div>
+
+        <!-- FORGOT view -->
+        <div id="view-forgot" class="hidden">
+          <h2>Quên mật khẩu 🔑</h2>
+          <p>Nhập email của bạn để nhận hướng dẫn đặt lại mật khẩu (thông báo giả lập).</p>
+
+          <form id="forgotForm">
+            <input id="forgotEmail" class="field" type="email" placeholder="Nhập email của bạn" required />
+            <button class="btn" type="submit">Gửi hướng dẫn</button>
+          </form>
+
+          <div id="forgotMsg" class="message success hidden" style="margin-top:12px;"></div>
+
+          <div class="links-row">
+            <a href="#" onclick="showView('login'); return false;">⬅ Quay lại đăng nhập</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT column (kept unchanged) -->
+      <div class="right">
+        <div>
+          <h3>Tham gia cùng chúng tôi!</h3>
+          <p>Tạo tài khoản để nhận ưu đãi độc quyền và cập nhật sản phẩm mới mỗi tuần.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // VIEW SWITCHER
+    function showView(name) {
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('view-register').classList.add('hidden');
+      document.getElementById('view-forgot').classList.add('hidden');
+      document.getElementById('loginError').classList.add('hidden');
+      document.getElementById('registerMsg').classList.add('hidden');
+      document.getElementById('forgotMsg').classList.add('hidden');
+
+      if (name === 'login') document.getElementById('view-login').classList.remove('hidden');
+      if (name === 'register') document.getElementById('view-register').classList.remove('hidden');
+      if (name === 'forgot') document.getElementById('view-forgot').classList.remove('hidden');
+    }
+
+    // Default view
+    showView('login');
+
+    // DEMO: login validation (fake)
+    const demoEmail = "admin@gmail.com";
+    const demoPassword = "123456";
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value.trim();
+      const err = document.getElementById('loginError');
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Ẩn lỗi mỗi khi bấm đăng nhập
+  err.classList.add('hidden');
+  err.style.display = 'none';
+
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPassword').value.trim();
+
+  if (email === demoEmail && pass === demoPassword) {
+    window.location.href = "index.html";
+  } else {
+    // Hiện lỗi nếu nhập sai
+    err.classList.remove('hidden');
+    err.style.display = 'block';
+  }
+});
+
+
+      if (email === demoEmail && pass === demoPassword) {
+        // success -> redirect sample
+        window.location.href = "index.html";
+      } else {
+        err.classList.remove('hidden');
+        // small shake animation
+        err.style.animation = 'none';
+        void err.offsetWidth;
+        err.style.animation = 'shake 0.35s';
+      }
+    });
+
+    // Simple keyframes (inject)
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-6px); }
+        50% { transform: translateX(6px); }
+        75% { transform: translateX(-4px); }
+        100% { transform: translateX(0); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // REGISTER demo (fake)
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('regEmail').value.trim();
+      const pass = document.getElementById('regPass').value;
+      const pass2 = document.getElementById('regPass2').value;
+      const msg = document.getElementById('registerMsg');
+
+      if (!email) {
+        msg.className = 'message error';
+        msg.textContent = 'Vui lòng nhập email hợp lệ.';
+        msg.classList.remove('hidden');
+        return;
+      }
+      if (pass !== pass2) {
+        msg.className = 'message error';
+        msg.textContent = 'Mật khẩu xác nhận không khớp.';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      msg.className = 'message success';
+      msg.textContent = `✅ Đăng ký thành công cho ${email}. Bạn có thể quay lại đăng nhập.`;
+      msg.classList.remove('hidden');
+      document.getElementById('registerForm').reset();
+    });
+
+    // FORGOT demo (fake send)
+    document.getElementById('forgotForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('forgotEmail').value.trim();
+      const msg = document.getElementById('forgotMsg');
+
+      if (!email) {
+        msg.className = 'message error';
+        msg.textContent = '⚠️ Vui lòng nhập địa chỉ email hợp lệ.';
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      msg.className = 'message';
+      msg.textContent = '⏳ Đang gửi hướng dẫn khôi phục mật khẩu...';
+      msg.style.background = '#fff8e1';
+      msg.style.color = '#a05a00';
+      msg.classList.remove('hidden');
+
+      setTimeout(function() {
+        msg.className = 'message success';
+        msg.textContent = `✅ Liên kết đặt lại mật khẩu đã được gửi đến ${email}! `;
+        document.getElementById('forgotForm').reset();
+      }, 1400);
+    });
+  </script>
+</body>
+</html>
